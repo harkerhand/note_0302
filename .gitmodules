@@ -1,0 +1,3 @@
+[submodule "DIP/opencv"]
+	path = DIP/opencv
+	url = https://github.com/opencv/opencv.git
