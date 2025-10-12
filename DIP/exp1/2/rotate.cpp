@@ -119,5 +119,19 @@ int main(int argc, char **argv)
     dst_path = "./custom_rotate.png";
     cv::imwrite(dst_path, dst_custom);
 
+    // 5. 对变换后的图像进行逆变换并保存
+    // 5.1 使用 OpenCV 的函数进行逆变换
+    cv::Mat inv_rot_mat;
+    cv::invertAffineTransform(rot_mat, inv_rot_mat);
+    cv::Mat recovered;
+    cv::warpAffine(dst, recovered, inv_rot_mat, dst.size(), cv::INTER_LINEAR, cv::BORDER_CONSTANT, cv::Scalar(0));
+    std::string recovered_path = "./easy_rotate_inv.png";
+    cv::imwrite(recovered_path, recovered);
+
+    // 5.2 使用自定义的旋转函数进行逆变换
+    cv::Mat inv_dst_custom = myRotate(dst_custom, -rotate_angle);
+    recovered_path = "./custom_rotate_inv.png";
+    cv::imwrite(recovered_path, inv_dst_custom);
+
     return 0;
 }
