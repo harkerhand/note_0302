@@ -5,7 +5,7 @@
 
 namespace fs = std::filesystem;
 
-cv::Mat myMove(const cv::Mat &src, int move_x, int move_y)
+cv::Mat myRotate(const cv::Mat &src, int move_x, int move_y)
 {
     cv::Mat dst = cv::Mat::zeros(src.rows + abs(move_y), src.cols + abs(move_x), src.type());
     for (int y = 0; y < src.rows; ++y)
@@ -50,7 +50,7 @@ int main(int argc, char **argv)
     src.copyTo(dst(roi));
 
     // 3. 使用自定义的移动函数
-    cv::Mat dst_custom = myMove(src, move_x, move_y);
+    cv::Mat dst_custom = myRotate(src, move_x, move_y);
     // 验证自定义函数的结果是否与标准库一致
     if (cv::countNonZero(dst != dst_custom) == 0)
     {
