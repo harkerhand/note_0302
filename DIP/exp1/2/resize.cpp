@@ -3,7 +3,24 @@
 #include <iomanip>
 #include <filesystem>
 
+#include <cmath>
+
 namespace fs = std::filesystem;
+
+/*
+ * @function myGetMoveMatrix
+ * @brief  生成缩放变换的齐次 3x3 矩阵
+ * @param  scale_x x 方向缩放
+ * @param  scale_y y 方向缩放
+ * @return     3x3 齐次变换矩阵
+ */
+cv::Mat myGetMoveMatrix(double scale_x, double scale_y)
+{
+    cv::Mat move_mat = (cv::Mat_<double>(3, 3) << scale_x, 0, 0,
+                        0, scale_y, 0,
+                        0, 0, 1);
+    return move_mat;
+}
 
 /*
  * @function myResize
@@ -16,18 +33,28 @@ namespace fs = std::filesystem;
  */
 cv::Mat myResize(const cv::Mat &src, double scale_x, double scale_y)
 {
-    int dst_w = static_cast<int>(src.cols * scale_x);
-    int dst_h = static_cast<int>(src.rows * scale_y);
+    cv::Mat scale_mat = myGetMoveMatrix(scale_x, scale_y);
+    cv::Mat inv_scale = scale_mat.inv();
 
-    cv::Mat dst(dst_h, dst_w, src.type());
+    // 将输出 dst 的尺寸设置为原始图像尺寸，超出的部分隐式丢弃
+    int dst_w = src.cols;
+    int dst_h = src.rows;
+
+    cv::Mat dst(dst_h, dst_w, src.type(), cv::Scalar(0));
 
     for (int y = 0; y < dst_h; ++y)
     {
         for (int x = 0; x < dst_w; ++x)
         {
-            // 基于像素中心进行坐标映射
-            double srcX = (x + 0.5) / scale_x - 0.5;
-            double srcY = (y + 0.5) / scale_y - 0.5;
+            double srcX = inv_scale.at<double>(0, 0) * x +
+                          inv_scale.at<double>(0, 1) * y +
+                          inv_scale.at<double>(0, 2);
+            double srcY = inv_scale.at<double>(1, 0) * x +
+                          inv_scale.at<double>(1, 1) * y +
+                          inv_scale.at<double>(1, 2);
+
+            if (srcX < 0 || srcX >= src.cols - 1 || srcY < 0 || srcY >= src.rows - 1)
+                continue;
 
             int x1 = std::clamp(static_cast<int>(std::floor(srcX)), 0, src.cols - 1);
             int y1 = std::clamp(static_cast<int>(std::floor(srcY)), 0, src.rows - 1);
@@ -73,25 +100,48 @@ int main(int argc, char **argv)
     }
 
     // 2. 使用 OpenCV 自带函数缩放
+    int dst_w = static_cast<int>(src.cols * scale_x);
+    int dst_h = static_cast<int>(src.rows * scale_y);
     cv::Mat dst_cv;
-    cv::resize(src, dst_cv, cv::Size(), scale_x, scale_y, cv::INTER_LINEAR);
+    // 使用仿射缩放矩阵和 warpAffine（目标尺寸设为 src.size()，超出部分丢弃）
+    cv::Mat scale_mat = (cv::Mat_<double>(2, 3) << scale_x, 0, 0, 0, scale_y, 0);
+    cv::warpAffine(src, dst_cv, scale_mat, src.size(), cv::INTER_LINEAR, cv::BORDER_CONSTANT, cv::Scalar(0));
 
     // 3. 使用自定义函数缩放
     cv::Mat dst_custom = myResize(src, scale_x, scale_y);
 
     // 4. 保存输出结果
-    cv::imwrite("./easy_resize.png", dst_cv);
-    cv::imwrite("./custom_resize.png", dst_custom);
+    // 把放缩后超出原始图片的部分丢弃（裁剪到原始尺寸，放在左上角）
+    cv::Mat dst_cv_cropped(src.rows, src.cols, dst_cv.type(), cv::Scalar(0));
+    int copy_w = std::min(dst_w, src.cols);
+    int copy_h = std::min(dst_h, src.rows);
+    if (copy_w > 0 && copy_h > 0)
+    {
+        dst_cv(cv::Rect(0, 0, copy_w, copy_h)).copyTo(dst_cv_cropped(cv::Rect(0, 0, copy_w, copy_h)));
+    }
+
+    cv::Mat dst_custom_cropped(src.rows, src.cols, dst_custom.type(), cv::Scalar(0));
+    if (copy_w > 0 && copy_h > 0)
+    {
+        dst_custom(cv::Rect(0, 0, copy_w, copy_h)).copyTo(dst_custom_cropped(cv::Rect(0, 0, copy_w, copy_h)));
+    }
+
+    cv::imwrite("./easy_resize.png", dst_cv_cropped);
+    cv::imwrite("./custom_resize.png", dst_custom_cropped);
 
     // 5. 对变换后的图像进行逆变换并保存
-    // 5.1 使用 OpenCV 的函数进行逆变换
-    cv::Mat dst_inv_cv;
-    cv::resize(dst_cv, dst_inv_cv, src.size(), 0, 0, cv::INTER_LINEAR);
+    // 5.1 OpenCV 逆变换：使用 invertAffineTransform 得到逆仿射矩阵
+    cv::Mat inv_affine;
+    cv::invertAffineTransform(scale_mat, inv_affine);
+    cv::Mat easy_inv;
+    // 使用裁剪后的缩放图像进行逆变换
+    cv::warpAffine(dst_cv_cropped, easy_inv, inv_affine, src.size(), cv::INTER_LINEAR, cv::BORDER_CONSTANT, cv::Scalar(0));
     std::string dst_path = "./easy_resize_inv.png";
-    cv::imwrite(dst_path, dst_inv_cv);
-    // 5.2 使用自定义函数进行逆变换
+    cv::imwrite(dst_path, easy_inv);
+
+    // 5.2 使用自定义函数进行逆变换（缩放的逆为 1/scale）
     cv::Mat dst_inv_custom;
-    dst_inv_custom = myResize(dst_custom, 1.0 / scale_x, 1.0 / scale_y);
+    dst_inv_custom = myResize(dst_custom_cropped, 1.0 / scale_x, 1.0 / scale_y);
     dst_path = "./custom_resize_inv.png";
     cv::imwrite(dst_path, dst_inv_custom);
     return 0;

@@ -93,6 +93,11 @@ int main()
               << std::setw(10) << "File Size (KB)"
               << "\n------------------------------------------------------------\n";
 
+    std::cout << std::left << std::setw(20) << "Original"
+              << std::setw(10) << src.cols
+              << std::setw(10) << src.rows
+              << std::setw(10) << std::fixed << std::setprecision(2) << get_file_size_kb("../SEU_gray.png") << "\n";
+
     std::cout << std::left << std::setw(20) << "Nearest Neighbor"
               << std::setw(10) << nn.cols
               << std::setw(10) << nn.rows

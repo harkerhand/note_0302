@@ -50,8 +50,8 @@ cv::Mat myShear(const cv::Mat &src, double shx, double shy)
             if (srcX < 0 || srcX >= src.cols - 1 || srcY < 0 || srcY >= src.rows - 1)
                 continue;
 
-            int x1 = static_cast<int>(std::floor(srcX));
-            int y1 = static_cast<int>(std::floor(srcY));
+            int x1 = std::clamp(static_cast<int>(std::floor(srcX)), 0, src.cols - 1);
+            int y1 = std::clamp(static_cast<int>(std::floor(srcY)), 0, src.rows - 1);
             int x2 = std::clamp(x1 + 1, 0, src.cols - 1);
             int y2 = std::clamp(y1 + 1, 0, src.rows - 1);
 

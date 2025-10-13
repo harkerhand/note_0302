@@ -3,23 +3,76 @@
 #include <iomanip>
 #include <filesystem>
 
+#include <cmath>
+
 namespace fs = std::filesystem;
 
-cv::Mat myMove(const cv::Mat &src, int move_x, int move_y)
+/*
+ * @function myGetMoveMatrix
+ * @brief  生成平移变换的齐次 3x3 矩阵
+ * @param  tx x 方向平移
+ * @param  ty y 方向平移
+ * @return     3x3 齐次变换矩阵
+ */
+cv::Mat myGetMoveMatrix(double tx, double ty)
 {
-    cv::Mat dst = cv::Mat::zeros(src.rows, src.cols, src.type());
-    for (int y = 0; y < src.rows; ++y)
+    cv::Mat move_mat = (cv::Mat_<double>(3, 3) << 1, 0, tx,
+                        0, 1, ty,
+                        0, 0, 1);
+    return move_mat;
+}
+
+/*
+ * @function myMove
+ * @brief  使用逆映射和双线性插值执行平移变换（与 shear.cpp 风格一致）
+ * @param  src 输入图像
+ * @param  tx  x 方向平移（可以为负）
+ * @param  ty  y 方向平移（可以为负）
+ * @return     变换后的图像
+ */
+cv::Mat myMove(const cv::Mat &src, double tx, double ty)
+{
+    cv::Mat move_mat = myGetMoveMatrix(tx, ty);
+    cv::Mat inv_move = move_mat.inv();
+
+    cv::Mat dst(src.rows, src.cols, src.type(), cv::Scalar(0));
+
+    for (int y = 0; y < dst.rows; ++y)
     {
-        for (int x = 0; x < src.cols; ++x)
+        for (int x = 0; x < dst.cols; ++x)
         {
-            int new_x = x + move_x;
-            int new_y = y + move_y;
-            if (new_x >= 0 && new_x < dst.cols && new_y >= 0 && new_y < dst.rows)
-            {
-                dst.at<uchar>(new_y, new_x) = src.at<uchar>(y, x);
-            }
+            double srcX = inv_move.at<double>(0, 0) * x +
+                          inv_move.at<double>(0, 1) * y +
+                          inv_move.at<double>(0, 2);
+            double srcY = inv_move.at<double>(1, 0) * x +
+                          inv_move.at<double>(1, 1) * y +
+                          inv_move.at<double>(1, 2);
+
+            if (srcX < 0 || srcX >= src.cols - 1 || srcY < 0 || srcY >= src.rows - 1)
+                continue;
+
+            int x1 = std::clamp(static_cast<int>(std::floor(srcX)), 0, src.cols - 1);
+            int y1 = std::clamp(static_cast<int>(std::floor(srcY)), 0, src.rows - 1);
+            int x2 = std::clamp(x1 + 1, 0, src.cols - 1);
+            int y2 = std::clamp(y1 + 1, 0, src.rows - 1);
+
+            double dx = srcX - x1;
+            double dy = srcY - y1;
+
+            double f11 = src.at<uchar>(y1, x1);
+            double f12 = src.at<uchar>(y1, x2);
+            double f21 = src.at<uchar>(y2, x1);
+            double f22 = src.at<uchar>(y2, x2);
+
+            double value = f11 * (1 - dx) * (1 - dy) +
+                           f12 * dx * (1 - dy) +
+                           f21 * (1 - dx) * dy +
+                           f22 * dx * dy;
+
+            dst.at<uchar>(y, x) = static_cast<uchar>(std::round(value));
         }
     }
+
     return dst;
 }
 
