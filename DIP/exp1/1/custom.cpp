@@ -80,9 +80,12 @@ int main()
         return -1;
     }
 
+    cv::Mat ez;
+    cv::resize(src, ez, cv::Size(src.cols * 2, src.rows * 2), 0, 0, cv::INTER_LINEAR);
     cv::Mat nn = nearestNeighborResize(src, cv::Size(src.cols * 2, src.rows * 2));
     cv::Mat bl = bilinearResize(src, cv::Size(src.cols * 2, src.rows * 2));
 
+    cv::imwrite("./easy_resize.png", ez);
     cv::imwrite("./resize_nn.png", nn);
     cv::imwrite("./resize_bilinear.png", bl);
 
@@ -97,6 +100,11 @@ int main()
               << std::setw(10) << src.cols
               << std::setw(10) << src.rows
               << std::setw(10) << std::fixed << std::setprecision(2) << get_file_size_kb("../SEU_gray.png") << "\n";
+
+    std::cout << std::left << std::setw(20) << "OpenCV Bilinear"
+              << std::setw(10) << ez.cols
+              << std::setw(10) << ez.rows
+              << std::setw(10) << std::fixed << std::setprecision(2) << get_file_size_kb("./easy_resize.png") << "\n";
 
     std::cout << std::left << std::setw(20) << "Nearest Neighbor"
               << std::setw(10) << nn.cols
