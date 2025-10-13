@@ -24,7 +24,7 @@ cv::Mat myGetMoveMatrix(double tx, double ty)
 
 /*
  * @function myMove
- * @brief  使用逆映射和双线性插值执行平移变换（与 shear.cpp 风格一致）
+ * @brief  使用逆映射和双线性插值执行平移变换
  * @param  src 输入图像
  * @param  tx  x 方向平移（可以为负）
  * @param  ty  y 方向平移（可以为负）
