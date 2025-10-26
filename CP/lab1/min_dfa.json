@@ -52,7 +52,7 @@
         {
             "from": "START",
             "to": "ID",
-            "pattern": "[A-Za-z_]"
+            "pattern": "[A-Zabcdfghjkmnoqstuvwxyz_]"
         },
         {
             "from": "ID",
@@ -185,9 +185,19 @@
             "pattern": "[^\\n]"
         },
         {
+            "from": "KEY",
+            "to": "ID",
+            "pattern": "[A-Za-z0-9_]"
+        },
+        {
             "from": "START",
             "to": "LET:L",
             "pattern": "[l]"
+        },
+        {
+            "from": "LET:L",
+            "to": "ID",
+            "pattern": "[A-Za-df-z0-9_]"
         },
         {
             "from": "LET:L",
@@ -196,13 +206,13 @@
         },
         {
             "from": "LET:E",
-            "to": "KEY",
-            "pattern": "[t]"
+            "to": "ID",
+            "pattern": "[A-Za-su-z0-9_]"
         },
         {
-            "from": "KEY",
-            "to": "ID",
-            "pattern": "[A-Za-z0-9_]"
+            "from": "LET:E",
+            "to": "KEY",
+            "pattern": "[t]"
         },
         {
             "from": "START",
@@ -211,8 +221,18 @@
         },
         {
             "from": "PRINT:P",
+            "to": "ID",
+            "pattern": "[A-Za-qs-z0-9_]"
+        },
+        {
+            "from": "PRINT:P",
             "to": "PRINT:R",
             "pattern": "[r]"
+        },
+        {
+            "from": "PRINT:R",
+            "to": "ID",
+            "pattern": "[A-Za-hj-z0-9_]"
         },
         {
             "from": "PRINT:R",
@@ -221,8 +241,18 @@
         },
         {
             "from": "PRINT:I",
+            "to": "ID",
+            "pattern": "[A-Za-mo-z0-9_]"
+        },
+        {
+            "from": "PRINT:I",
             "to": "PRINT:N",
             "pattern": "[n]"
+        },
+        {
+            "from": "PRINT:N",
+            "to": "ID",
+            "pattern": "[A-Za-su-z0-9_]"
         },
         {
             "from": "PRINT:N",
@@ -231,8 +261,48 @@
         },
         {
             "from": "START",
+            "to": "READ:R",
+            "pattern": "[r]"
+        },
+        {
+            "from": "READ:R",
+            "to": "ID",
+            "pattern": "[A-Za-df-z0-9_]"
+        },
+        {
+            "from": "READ:R",
+            "to": "READ:E",
+            "pattern": "[e]"
+        },
+        {
+            "from": "READ:E",
+            "to": "ID",
+            "pattern": "[A-Zb-z0-9_]"
+        },
+        {
+            "from": "READ:E",
+            "to": "READ:A",
+            "pattern": "[a]"
+        },
+        {
+            "from": "READ:A",
+            "to": "ID",
+            "pattern": "[A-Za-ce-z0-9_]"
+        },
+        {
+            "from": "READ:A",
+            "to": "KEY",
+            "pattern": "[d]"
+        },
+        {
+            "from": "START",
             "to": "IF:I",
             "pattern": "[i]"
+        },
+        {
+            "from": "IF:I",
+            "to": "ID",
+            "pattern": "[A-Za-hj-z0-9_]"
         },
         {
             "from": "IF:I",
@@ -246,13 +316,28 @@
         },
         {
             "from": "ELSE:E",
+            "to": "ID",
+            "pattern": "[A-Za-km-z0-9_]"
+        },
+        {
+            "from": "ELSE:E",
             "to": "ELSE:L",
             "pattern": "[l]"
         },
         {
             "from": "ELSE:L",
+            "to": "ID",
+            "pattern": "[A-Za-rt-z0-9_]"
+        },
+        {
+            "from": "ELSE:L",
             "to": "ELSE:S",
             "pattern": "[s]"
+        },
+        {
+            "from": "ELSE:S",
+            "to": "ID",
+            "pattern": "[A-Za-df-z0-9_]"
         },
         {
             "from": "ELSE:S",

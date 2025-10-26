@@ -32,8 +32,8 @@ ID_NFA:
   start: s0
   accept: {s1}
   transitions:
-    s0 --[A-Z a-z _]--> s1
-    s1 --[A-Z a-z 0-9 _]--> s1
+    s0 --[A-Zabcdfghjkmnoqstuvwxyz_]--> s1
+    s1 --[A-Za-z0-9_]--> s1
 
 NUM_NFA:
   states: {s0, s1, s2, s3}
@@ -176,33 +176,48 @@ KEY_NFA:
   start: s0
   accept: {s3, ID}
   transitions:
+
+    s3 --[A-Za-z0-9_]--> ID
+    ID --[A-Za-z0-9_]--> ID
     # "let"
     s0 --[l]--> s1
+    s1 --[A-Za-df-z0-9_]--> ID
     s1 --[e]--> s2
+    s2 --[A-Za-su-z0-9_]--> ID
     s2 --[t]--> s3
-    s3 --[A-Za-z0-9_]--> ID
 
     # "print"
     s0 --[p]--> s4
+    s4 --[A-Za-qs-z0-9_]--> ID
     s4 --[r]--> s5
+    s5 --[A-Za-hj-z0-9_]--> ID
     s5 --[i]--> s6
+    s6 --[A-Za-mo-z0-9_]--> ID
     s6 --[n]--> s7
+    s7 --[A-Za-su-z0-9_]--> ID
     s7 --[t]--> s3
 
     # "read"
     s0 --[r]--> s9
+    s9 --[A-Za-qst-z0-9_]--> ID
     s9 --[e]--> s10
+    s10 --[A-Zb-z0-9_]--> ID
     s10 --[a]--> s11
+    s10 --[A-Za-ce-z0-9_]--> ID
     s11 --[d]--> s3
 
     # "if"
     s0 --[i]--> s13
+    s13 --[A-Za-eg-z0-9_]--> ID
     s13 --[f]--> s3
 
     # "else"
     s0 --[e]--> s15
+    s15 --[A-Za-km-z0-9_]--> ID
     s15 --[l]--> s16
+    s16 --[A-Za-rt-z0-9_]--> ID
     s16 --[s]--> s17
+    s17 --[A-Za-df-z0-9_]--> ID
     s17 --[e]--> s3
 ```
 
@@ -237,8 +252,8 @@ LEXER_NFA:
     S0 --[ε]--> WS_s0
     S0 --[ε]--> KEY_s0
 
-    ID_s0 --[A-Z a-z _]--> ID_s1
-    ID_s1 --[A-Z a-z 0-9 _]--> ID_s1
+    ID_s0 --[A-Zabcdfghjkmnoqstuvwxyz_]--> ID_s1
+    ID_s1 --[A-ZZa-z0-9_]--> ID_s1
 
     NUM_s0 --[0-9]--> NUM_s1
     NUM_s1 --[0-9]--> NUM_s1
@@ -286,32 +301,47 @@ LEXER_NFA:
     WS_s0 --[ \t\n\r]--> WS_s1
     WS_s1 --[ \t\n\r]--> WS_s1
 
-    KEY_s0 --[l]--> KEY_s1
-    KEY_s1 --[e]--> KEY_s2
-    KEY_s2 --[t]--> KEY_s3
     KEY_s3 --[A-Za-z0-9_]--> KEY_ID
+    KEY_ID --[A-Za-z0-9_]--> KEY_ID
+    # "let"
+    KEY_s0 --[l]--> KEY_s1
+    KEY_s1 --[A-Za-df-z0-9_]--> KEY_ID
+    KEY_s1 --[e]--> KEY_s2
+    KEY_s2 --[A-Za-su-z0-9_]--> KEY_ID
+    KEY_s2 --[t]--> KEY_s3
 
     # "print"
     KEY_s0 --[p]--> KEY_s4
+    KEY_s4 --[A-Za-qs-z0-9_]--> KEY_ID
     KEY_s4 --[r]--> KEY_s5
+    KEY_s5 --[A-Za-hj-z0-9_]--> KEY_ID
     KEY_s5 --[i]--> KEY_s6
+    KEY_s6 --[A-Za-mo-z0-9_]--> KEY_ID
     KEY_s6 --[n]--> KEY_s7
+    KEY_s7 --[A-Za-su-z0-9_]--> KEY_ID
     KEY_s7 --[t]--> KEY_s3
 
     # "read"
     KEY_s0 --[r]--> KEY_s9
+    KEY_s9 --[A-Za-qst-z0-9_]--> KEY_ID
     KEY_s9 --[e]--> KEY_s10
+    KEY_s10 --[A-Zb-z0-9_]--> KEY_ID
     KEY_s10 --[a]--> KEY_s11
+    KEY_s10 --[A-Za-ce-z0-9_]--> KEY_ID
     KEY_s11 --[d]--> KEY_s3
 
     # "if"
     KEY_s0 --[i]--> KEY_s13
+    KEY_s13 --[A-Za-eg-z0-9_]--> KEY_ID
     KEY_s13 --[f]--> KEY_s3
 
     # "else"
     KEY_s0 --[e]--> KEY_s15
+    KEY_s15 --[A-Za-km-z0-9_]--> KEY_ID
     KEY_s15 --[l]--> KEY_s16
+    KEY_s16 --[A-Za-rt-z0-9_]--> KEY_ID
     KEY_s16 --[s]--> KEY_s17
+    KEY_s17 --[A-Za-df-z0-9_]--> KEY_ID
     KEY_s17 --[e]--> KEY_s3
 ```
 
@@ -341,37 +371,43 @@ LEXER_NFA:
         "OP:NOT",
         "OP:NOTEQ",
         "SEP",
-        "COMMENT"
+        "COMMENT",
+        "KEY"
     ],
     "start": "START",
     "accept": [
         "ID",
         "NUM_INT",
         "NUM_FLOAT",
+        "OP:POW",
         "OP:POW2",
         "ASSIGN",
         "OP:EQ",
+        "OP:LESS",
         "OP:LESSEQ",
         "OP:DIV",
+        "OP:GREATER",
         "OP:GREATEREQ",
         "OP:MINUS",
         "OP:ADD",
         "OP:MUL",
         "WS",
+        "OP:NOT",
         "OP:NOTEQ",
         "SEP",
-        "COMMENT"
+        "COMMENT",
+        "KEY"
     ],
     "trans": [
         {
             "from": "START",
             "to": "ID",
-            "pattern": "[A-Z a-z _]"
+            "pattern": "[A-Zabcdfghjkmnoqstuvwxyz_]"
         },
         {
             "from": "ID",
             "to": "ID",
-            "pattern": "[A-Z a-z 0-9 _]"
+            "pattern": "[A-Za-z0-9_]"
         },
         {
             "from": "START",
@@ -497,6 +533,166 @@ LEXER_NFA:
             "from": "COMMENT",
             "to": "COMMENT",
             "pattern": "[^\\n]"
+        },
+        {
+            "from": "KEY",
+            "to": "ID",
+            "pattern": "[A-Za-z0-9_]"
+        },
+        {
+            "from": "START",
+            "to": "LET:L",
+            "pattern": "[l]"
+        },
+        {
+            "from": "LET:L",
+            "to": "ID",
+            "pattern": "[A-Za-df-z0-9_]"
+        },
+        {
+            "from": "LET:L",
+            "to": "LET:E",
+            "pattern": "[e]"
+        },
+        {
+            "from": "LET:E",
+            "to": "ID",
+            "pattern": "[A-Za-su-z0-9_]"
+        },
+        {
+            "from": "LET:E",
+            "to": "KEY",
+            "pattern": "[t]"
+        },
+        {
+            "from": "START",
+            "to": "PRINT:P",
+            "pattern": "[p]"
+        },
+        {
+            "from": "PRINT:P",
+            "to": "ID",
+            "pattern": "[A-Za-qs-z0-9_]"
+        },
+        {
+            "from": "PRINT:P",
+            "to": "PRINT:R",
+            "pattern": "[r]"
+        },
+        {
+            "from": "PRINT:R",
+            "to": "ID",
+            "pattern": "[A-Za-hj-z0-9_]"
+        },
+        {
+            "from": "PRINT:R",
+            "to": "PRINT:I",
+            "pattern": "[i]"
+        },
+        {
+            "from": "PRINT:I",
+            "to": "ID",
+            "pattern": "[A-Za-mo-z0-9_]"
+        },
+        {
+            "from": "PRINT:I",
+            "to": "PRINT:N",
+            "pattern": "[n]"
+        },
+        {
+            "from": "PRINT:N",
+            "to": "ID",
+            "pattern": "[A-Za-su-z0-9_]"
+        },
+        {
+            "from": "PRINT:N",
+            "to": "KEY",
+            "pattern": "[t]"
+        },
+        {
+            "from": "START",
+            "to": "READ:R",
+            "pattern": "[r]"
+        },
+        {
+            "from": "READ:R",
+            "to": "ID",
+            "pattern": "[A-Za-df-z0-9_]"
+        },
+        {
+            "from": "READ:R",
+            "to": "READ:E",
+            "pattern": "[e]"
+        },
+        {
+            "from": "READ:E",
+            "to": "ID",
+            "pattern": "[A-Zb-z0-9_]"
+        },
+        {
+            "from": "READ:E",
+            "to": "READ:A",
+            "pattern": "[a]"
+        },
+        {
+            "from": "READ:A",
+            "to": "ID",
+            "pattern": "[A-Za-ce-z0-9_]"
+        },
+        {
+            "from": "READ:A",
+            "to": "KEY",
+            "pattern": "[d]"
+        },
+        {
+            "from": "START",
+            "to": "IF:I",
+            "pattern": "[i]"
+        },
+        {
+            "from": "IF:I",
+            "to": "ID",
+            "pattern": "[A-Za-hj-z0-9_]"
+        },
+        {
+            "from": "IF:I",
+            "to": "KEY",
+            "pattern": "[f]"
+        },
+        {
+            "from": "START",
+            "to": "ELSE:E",
+            "pattern": "[e]"
+        },
+        {
+            "from": "ELSE:E",
+            "to": "ID",
+            "pattern": "[A-Za-km-z0-9_]"
+        },
+        {
+            "from": "ELSE:E",
+            "to": "ELSE:L",
+            "pattern": "[l]"
+        },
+        {
+            "from": "ELSE:L",
+            "to": "ID",
+            "pattern": "[A-Za-rt-z0-9_]"
+        },
+        {
+            "from": "ELSE:L",
+            "to": "ELSE:S",
+            "pattern": "[s]"
+        },
+        {
+            "from": "ELSE:S",
+            "to": "ID",
+            "pattern": "[A-Za-df-z0-9_]"
+        },
+        {
+            "from": "ELSE:S",
+            "to": "KEY",
+            "pattern": "[e]"
         }
     ]
 }

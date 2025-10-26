@@ -1,9 +1,11 @@
 #![allow(dead_code)]
-use std::collections::HashMap;
-use std::path::PathBuf;
 use clap::Parser;
-use serde::Deserialize;
 use regex::Regex;
+use serde::Deserialize;
+use std::collections::HashMap;
+use std::fs::OpenOptions;
+use std::io::Write;
+use std::path::PathBuf;
 
 #[derive(Debug, Deserialize)]
 struct DFA {
@@ -27,15 +29,19 @@ struct Args {
     /// 代码文件路径
     #[clap(short, long, default_value = "test_code.txt")]
     code_file: PathBuf,
+    /// 输出文件路径
+    #[clap(short, long, default_value = "output.txt")]
+    output_file: PathBuf,
+    /// 是否保留 "\n"，这会使得输出格式不太好看
+    #[clap(short, long, default_value_t = false)]
+    raw_newline: bool,
 }
 
 fn match_symbol(sym: &str, ch: char) -> bool {
-    if sym == "ε" {
-        return false;
-    }
-
     let pattern = format!("^{}$", sym);
-    Regex::new(&pattern).map(|re| re.is_match(&ch.to_string())).unwrap_or(false)
+    Regex::new(&pattern)
+        .map(|re| re.is_match(&ch.to_string()))
+        .unwrap_or(false)
 }
 
 fn main() {
@@ -51,6 +57,19 @@ fn main() {
     }
 
     let mut pos = 0;
+
+    // 先清空文件（truncate），再以追加模式打开
+    let _ = OpenOptions::new()
+        .create(true)
+        .write(true)
+        .truncate(true)
+        .open(&args.output_file)
+        .expect("Failed to clear output file");
+    let mut file = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(&args.output_file)
+        .expect("Failed to open output file for append");
     while pos < code.len() {
         let mut current_state = dfa.start.clone();
         let mut last_accept_state: Option<String> = None;
@@ -61,8 +80,6 @@ fn main() {
         for (i, &ch) in chars.iter().enumerate() {
             let mut moved = false;
             for (key, dst) in &trans {
-                let key0 = key.0.clone();
-                let key1 = key.1.clone();
                 if key.0 == current_state {
                     if match_symbol(&key.1, ch) {
                         current_state = dst.clone();
@@ -82,14 +99,28 @@ fn main() {
 
         if let Some(state) = last_accept_state {
             let mut token_text = &code[pos..last_accept_pos];
-            if token_text == "\n" {
+            if token_text == "\n" && !args.raw_newline {
                 token_text = "\\n";
             }
-            println!("AcceptState: {:<10} Lexeme: '{}'", state, token_text);
+            writeln!(file, "AcceptState: {:<15} Lexeme: '{}'", state, token_text)
+                .expect("Failed to write to output file");
             pos = last_accept_pos;
         } else {
-            println!("Unrecognized char: '{}'", code[pos..].chars().next().unwrap());
+            writeln!(
+                file,
+                "Unrecognized char: '{}'",
+                code[pos..].chars().next().unwrap()
+            )
+            .expect("Failed to write to output file");
+            eprintln!(
+                "Unrecognized char: '{}'",
+                code[pos..].chars().next().unwrap()
+            );
             pos += 1;
         }
     }
+    println!(
+        "Lexical analysis completed. Output written to {:?}",
+        args.output_file
+    );
 }
