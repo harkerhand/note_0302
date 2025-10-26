@@ -5,21 +5,11 @@
         "NUM_INT",
         "NUM_MIDDLE",
         "NUM_FLOAT",
-        "OP:POW",
-        "OP:POW2",
+        "OP1",
+        "OP2",
+        "REPEAT",
         "ASSIGN",
-        "OP:EQ",
-        "OP:LESS",
-        "OP:LESSEQ",
-        "OP:DIV",
-        "OP:GREATER",
-        "OP:GREATEREQ",
-        "OP:MINUS",
-        "OP:ADD",
-        "OP:MUL",
         "WS",
-        "OP:NOT",
-        "OP:NOTEQ",
         "SEP",
         "COMMENT",
         "KEY"
@@ -29,21 +19,11 @@
         "ID",
         "NUM_INT",
         "NUM_FLOAT",
-        "OP:POW",
-        "OP:POW2",
+        "OP1",
+        "OP2",
+        "REPEAT",
         "ASSIGN",
-        "OP:EQ",
-        "OP:LESS",
-        "OP:LESSEQ",
-        "OP:DIV",
-        "OP:GREATER",
-        "OP:GREATEREQ",
-        "OP:MINUS",
-        "OP:ADD",
-        "OP:MUL",
         "WS",
-        "OP:NOT",
-        "OP:NOTEQ",
         "SEP",
         "COMMENT",
         "KEY"
@@ -86,12 +66,12 @@
         },
         {
             "from": "START",
-            "to": "OP:POW",
+            "to": "OP1",
             "pattern": "[\\^]"
         },
         {
-            "from": "OP:POW",
-            "to": "OP:POW2",
+            "from": "OP1",
+            "to": "REPEAT",
             "pattern": "[\\^]"
         },
         {
@@ -101,52 +81,47 @@
         },
         {
             "from": "ASSIGN",
-            "to": "OP:EQ",
+            "to": "OP2",
             "pattern": "[=]"
         },
         {
             "from": "START",
-            "to": "OP:LESS",
+            "to": "OP1",
             "pattern": "[<]"
         },
         {
-            "from": "START",
-            "to": "OP:LESS",
-            "pattern": "[<]"
-        },
-        {
-            "from": "OP:LESS",
-            "to": "OP:LESSEQ",
+            "from": "OP1",
+            "to": "OP2",
             "pattern": "[=]"
         },
         {
             "from": "START",
-            "to": "OP:DIV",
+            "to": "OP1",
             "pattern": "[/]"
         },
         {
             "from": "START",
-            "to": "OP:GREATER",
+            "to": "OP1",
             "pattern": "[>]"
         },
         {
-            "from": "OP:GREATER",
-            "to": "OP:GREATEREQ",
+            "from": "OP1",
+            "to": "OP2",
             "pattern": "[=]"
         },
         {
             "from": "START",
-            "to": "OP:MINUS",
+            "to": "OP1",
             "pattern": "[-]"
         },
         {
             "from": "START",
-            "to": "OP:ADD",
+            "to": "OP1",
             "pattern": "[+]"
         },
         {
             "from": "START",
-            "to": "OP:MUL",
+            "to": "OP1",
             "pattern": "[*]"
         },
         {
@@ -161,12 +136,12 @@
         },
         {
             "from": "START",
-            "to": "OP:NOT",
+            "to": "OP1",
             "pattern": "[!]"
         },
         {
-            "from": "OP:NOT",
-            "to": "OP:NOTEQ",
+            "from": "OP1",
+            "to": "OP2",
             "pattern": "[=]"
         },
         {
@@ -175,7 +150,7 @@
             "pattern": "[(){};,]"
         },
         {
-            "from": "OP:DIV",
+            "from": "OP1",
             "to": "COMMENT",
             "pattern": "[/]"
         },

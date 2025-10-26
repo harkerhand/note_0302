@@ -98,9 +98,9 @@ fn main() {
         }
 
         if let Some(state) = last_accept_state {
-            let mut token_text = &code[pos..last_accept_pos];
-            if token_text == "\n" && !args.raw_newline {
-                token_text = "\\n";
+            let mut token_text = code[pos..last_accept_pos].to_string();
+            if !args.raw_newline {
+                token_text = token_text.replace('\n', "\\n");
             }
             writeln!(file, "AcceptState: {:<15} Lexeme: '{}'", state, token_text)
                 .expect("Failed to write to output file");
