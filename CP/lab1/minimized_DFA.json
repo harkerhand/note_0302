@@ -1,0 +1,324 @@
+{
+  "states": [
+    "S0",
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S5",
+    "S6",
+    "S7",
+    "S8",
+    "S9",
+    "S10",
+    "S11"
+  ],
+  "states_info": {
+    "S0": {
+      "members": [
+        [
+          "COMMENT_s1",
+          "DIV_s1"
+        ]
+      ]
+    },
+    "S1": {
+      "members": [
+        [
+          "COMMENT_s2"
+        ]
+      ]
+    },
+    "S2": {
+      "members": [
+        [
+          "ID_s1"
+        ]
+      ]
+    },
+    "S3": {
+      "members": [
+        [
+          "NUM_s1"
+        ]
+      ]
+    },
+    "S4": {
+      "members": [
+        [
+          "NUM_s3"
+        ]
+      ]
+    },
+    "S5": {
+      "members": [
+        [
+          "WS_s1"
+        ]
+      ]
+    },
+    "S6": {
+      "members": [
+        [
+          "POW1_s1",
+          "POW2_s1"
+        ]
+      ]
+    },
+    "S7": {
+      "members": [
+        [
+          "GE_s1",
+          "GT_s1"
+        ],
+        [
+          "LE_s1",
+          "LT_s1"
+        ],
+        [
+          "ASSIGN_s1",
+          "EQ_s1"
+        ]
+      ]
+    },
+    "S8": {
+      "members": [
+        [
+          "MUL_s1"
+        ],
+        [
+          "PLUS_s1"
+        ],
+        [
+          "NEQ_s2"
+        ],
+        [
+          "LE_s2"
+        ],
+        [
+          "SEP_s1"
+        ],
+        [
+          "MINUS_s1"
+        ],
+        [
+          "POW2_s2"
+        ],
+        [
+          "GE_s2"
+        ],
+        [
+          "EQ_s2"
+        ]
+      ]
+    },
+    "S9": {
+      "members": [
+        [
+          "ASSIGN_s0",
+          "COMMENT_s0",
+          "DIV_s0",
+          "EQ_s0",
+          "GE_s0",
+          "GT_s0",
+          "ID_s0",
+          "LE_s0",
+          "LT_s0",
+          "MINUS_s0",
+          "MUL_s0",
+          "NEQ_s0",
+          "NUM_s0",
+          "PLUS_s0",
+          "POW1_s0",
+          "POW2_s0",
+          "SEP_s0",
+          "START",
+          "WS_s0"
+        ]
+      ]
+    },
+    "S10": {
+      "members": [
+        [
+          "NUM_s2"
+        ]
+      ]
+    },
+    "S11": {
+      "members": [
+        [
+          "NEQ_s1"
+        ]
+      ]
+    }
+  },
+  "start": "S9",
+  "accepts": [
+    "S0",
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S5",
+    "S6",
+    "S7",
+    "S8"
+  ],
+  "transitions": [
+    {
+      "src": "S9",
+      "symbol": "[;]",
+      "dst": "S8"
+    },
+    {
+      "src": "S9",
+      "symbol": "[!]",
+      "dst": "S11"
+    },
+    {
+      "src": "S9",
+      "symbol": "[/]",
+      "dst": "S0"
+    },
+    {
+      "src": "S9",
+      "symbol": "[(]",
+      "dst": "S8"
+    },
+    {
+      "src": "S9",
+      "symbol": "[,]",
+      "dst": "S8"
+    },
+    {
+      "src": "S9",
+      "symbol": "[<]",
+      "dst": "S7"
+    },
+    {
+      "src": "S9",
+      "symbol": "[0-9]",
+      "dst": "S3"
+    },
+    {
+      "src": "S9",
+      "symbol": "[}]",
+      "dst": "S8"
+    },
+    {
+      "src": "S9",
+      "symbol": "[>]",
+      "dst": "S7"
+    },
+    {
+      "src": "S9",
+      "symbol": "[)]",
+      "dst": "S8"
+    },
+    {
+      "src": "S9",
+      "symbol": "[A-Z a-z _]",
+      "dst": "S2"
+    },
+    {
+      "src": "S9",
+      "symbol": "[ \\t\\n\\r]",
+      "dst": "S5"
+    },
+    {
+      "src": "S9",
+      "symbol": "[-]",
+      "dst": "S8"
+    },
+    {
+      "src": "S9",
+      "symbol": "[*]",
+      "dst": "S8"
+    },
+    {
+      "src": "S9",
+      "symbol": "[\\^]",
+      "dst": "S6"
+    },
+    {
+      "src": "S9",
+      "symbol": "[+]",
+      "dst": "S8"
+    },
+    {
+      "src": "S9",
+      "symbol": "[{]",
+      "dst": "S8"
+    },
+    {
+      "src": "S9",
+      "symbol": "[=]",
+      "dst": "S7"
+    },
+    {
+      "src": "S7",
+      "symbol": "[=]",
+      "dst": "S8"
+    },
+    {
+      "src": "S6",
+      "symbol": "[\\^]",
+      "dst": "S8"
+    },
+    {
+      "src": "S5",
+      "symbol": "[ \\t\\n\\r]",
+      "dst": "S5"
+    },
+    {
+      "src": "S2",
+      "symbol": "[A-Z a-z 0-9 _]",
+      "dst": "S2"
+    },
+    {
+      "src": "S7",
+      "symbol": "[=]",
+      "dst": "S8"
+    },
+    {
+      "src": "S3",
+      "symbol": "[.]",
+      "dst": "S10"
+    },
+    {
+      "src": "S3",
+      "symbol": "[0-9]",
+      "dst": "S3"
+    },
+    {
+      "src": "S10",
+      "symbol": "[0-9]",
+      "dst": "S4"
+    },
+    {
+      "src": "S4",
+      "symbol": "[0-9]",
+      "dst": "S4"
+    },
+    {
+      "src": "S7",
+      "symbol": "[=]",
+      "dst": "S8"
+    },
+    {
+      "src": "S0",
+      "symbol": "[/]",
+      "dst": "S1"
+    },
+    {
+      "src": "S1",
+      "symbol": "[^\\n]",
+      "dst": "S1"
+    },
+    {
+      "src": "S11",
+      "symbol": "[=]",
+      "dst": "S8"
+    }
+  ]
+}
