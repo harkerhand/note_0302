@@ -21,37 +21,43 @@
         "OP:NOT",
         "OP:NOTEQ",
         "SEP",
-        "COMMENT"
+        "COMMENT",
+        "KEY"
     ],
     "start": "START",
     "accept": [
         "ID",
         "NUM_INT",
         "NUM_FLOAT",
+        "OP:POW",
         "OP:POW2",
         "ASSIGN",
         "OP:EQ",
+        "OP:LESS",
         "OP:LESSEQ",
         "OP:DIV",
+        "OP:GREATER",
         "OP:GREATEREQ",
         "OP:MINUS",
         "OP:ADD",
         "OP:MUL",
         "WS",
+        "OP:NOT",
         "OP:NOTEQ",
         "SEP",
-        "COMMENT"
+        "COMMENT",
+        "KEY"
     ],
     "trans": [
         {
             "from": "START",
             "to": "ID",
-            "pattern": "[A-Z a-z _]"
+            "pattern": "[A-Za-z_]"
         },
         {
             "from": "ID",
             "to": "ID",
-            "pattern": "[A-Z a-z 0-9 _]"
+            "pattern": "[A-Za-z0-9_]"
         },
         {
             "from": "START",
@@ -177,6 +183,81 @@
             "from": "COMMENT",
             "to": "COMMENT",
             "pattern": "[^\\n]"
+        },
+        {
+            "from": "START",
+            "to": "LET:L",
+            "pattern": "[l]"
+        },
+        {
+            "from": "LET:L",
+            "to": "LET:E",
+            "pattern": "[e]"
+        },
+        {
+            "from": "LET:E",
+            "to": "KEY",
+            "pattern": "[t]"
+        },
+        {
+            "from": "KEY",
+            "to": "ID",
+            "pattern": "[A-Za-z0-9_]"
+        },
+        {
+            "from": "START",
+            "to": "PRINT:P",
+            "pattern": "[p]"
+        },
+        {
+            "from": "PRINT:P",
+            "to": "PRINT:R",
+            "pattern": "[r]"
+        },
+        {
+            "from": "PRINT:R",
+            "to": "PRINT:I",
+            "pattern": "[i]"
+        },
+        {
+            "from": "PRINT:I",
+            "to": "PRINT:N",
+            "pattern": "[n]"
+        },
+        {
+            "from": "PRINT:N",
+            "to": "KEY",
+            "pattern": "[t]"
+        },
+        {
+            "from": "START",
+            "to": "IF:I",
+            "pattern": "[i]"
+        },
+        {
+            "from": "IF:I",
+            "to": "KEY",
+            "pattern": "[f]"
+        },
+        {
+            "from": "START",
+            "to": "ELSE:E",
+            "pattern": "[e]"
+        },
+        {
+            "from": "ELSE:E",
+            "to": "ELSE:L",
+            "pattern": "[l]"
+        },
+        {
+            "from": "ELSE:L",
+            "to": "ELSE:S",
+            "pattern": "[s]"
+        },
+        {
+            "from": "ELSE:S",
+            "to": "KEY",
+            "pattern": "[e]"
         }
     ]
 }

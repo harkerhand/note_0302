@@ -1,0 +1,10 @@
+let x;
+x = 42;
+let y;
+read(y);
+let abc;
+abc = x + y + 23.3;
+{
+    abc = abc * 23.3;
+} ^^ 66;
+if (x >= y) {print(x);} else {print(y);}

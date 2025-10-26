@@ -22,7 +22,9 @@ LT     = "<"
 `SEP = "(" | ")" | "{" | "}" | ";" | "," `
 - 空格
 `WS = [ \t\n\r]+`
-
+- 关键字
+`KEY = "let" "print" "read" "if" "else"`
+ 
 # NFA
 ```
 ID_NFA:
@@ -168,6 +170,40 @@ WS_NFA:
   transitions:
     s0 --[ \t\n\r]--> s1
     s1 --[ \t\n\r]--> s1
+
+KEY_NFA:
+  states: {s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14}
+  start: s0
+  accept: {s3, ID}
+  transitions:
+    # "let"
+    s0 --[l]--> s1
+    s1 --[e]--> s2
+    s2 --[t]--> s3
+    s3 --[A-Za-z0-9_]--> ID
+
+    # "print"
+    s0 --[p]--> s4
+    s4 --[r]--> s5
+    s5 --[i]--> s6
+    s6 --[n]--> s7
+    s7 --[t]--> s3
+
+    # "read"
+    s0 --[r]--> s9
+    s9 --[e]--> s10
+    s10 --[a]--> s11
+    s11 --[d]--> s3
+
+    # "if"
+    s0 --[i]--> s13
+    s13 --[f]--> s3
+
+    # "else"
+    s0 --[e]--> s15
+    s15 --[l]--> s16
+    s16 --[s]--> s17
+    s17 --[e]--> s3
 ```
 
 # Merge
@@ -199,6 +235,7 @@ LEXER_NFA:
     S0 --[ε]--> LT_s0
     S0 --[ε]--> SEP_s0
     S0 --[ε]--> WS_s0
+    S0 --[ε]--> KEY_s0
 
     ID_s0 --[A-Z a-z _]--> ID_s1
     ID_s1 --[A-Z a-z 0-9 _]--> ID_s1
@@ -248,6 +285,34 @@ LEXER_NFA:
 
     WS_s0 --[ \t\n\r]--> WS_s1
     WS_s1 --[ \t\n\r]--> WS_s1
+
+    KEY_s0 --[l]--> KEY_s1
+    KEY_s1 --[e]--> KEY_s2
+    KEY_s2 --[t]--> KEY_s3
+    KEY_s3 --[A-Za-z0-9_]--> KEY_ID
+
+    # "print"
+    KEY_s0 --[p]--> KEY_s4
+    KEY_s4 --[r]--> KEY_s5
+    KEY_s5 --[i]--> KEY_s6
+    KEY_s6 --[n]--> KEY_s7
+    KEY_s7 --[t]--> KEY_s3
+
+    # "read"
+    KEY_s0 --[r]--> KEY_s9
+    KEY_s9 --[e]--> KEY_s10
+    KEY_s10 --[a]--> KEY_s11
+    KEY_s11 --[d]--> KEY_s3
+
+    # "if"
+    KEY_s0 --[i]--> KEY_s13
+    KEY_s13 --[f]--> KEY_s3
+
+    # "else"
+    KEY_s0 --[e]--> KEY_s15
+    KEY_s15 --[l]--> KEY_s16
+    KEY_s16 --[s]--> KEY_s17
+    KEY_s17 --[e]--> KEY_s3
 ```
 
 # Minimize
