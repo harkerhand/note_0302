@@ -17,7 +17,7 @@ cv::Mat PowerLawTrans(const cv::Mat &src, double gamma)
         {
             double normalized = static_cast<double>(src_row[x]) / 255.0;
             double powered = std::pow(normalized, gamma);
-            int scaled = static_cast<int>(powered * 255.0 + 0.5);
+            int scaled = std::round(powered * 255.0);
             dst_row[x] = static_cast<uint8_t>(std::clamp(scaled, 0, 255));
         }
     }
