@@ -42,3 +42,7 @@
 
 # VSCode settings
 .vscode/
+
+
+# obsidian
+.obsidian/
