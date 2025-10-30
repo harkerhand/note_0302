@@ -24,7 +24,7 @@ LT     = "<"
 `WS = [ \t\n\r]+`
 - 关键字
 `KEY = "let" "print" "read" "if" "else"`
- 
+
 # NFA
 ```
 ID_NFA:
@@ -677,15 +677,16 @@ LEXER_NFA:
 
 - Program -> StmtList
 - StmtList -> Stmt StmtList | ε
-- Stmt -> DeclStmt | AssignStmt | Block | FuncCallStmt | IfStmt | RepeatStmt
+- Stmt -> DeclStmt | AssignStmt | BlockMaybeRepeat | FuncCallStmt | IfStmt
 - DeclStmt -> KEY(let) ID SEP(;)
 - AssignStmt -> ID ASSIGN Expr SEP(;)
+- BlockMaybeRepeat -> Block | RepeatTail
 - Block -> SEP({) StmtList SEP(})
 - FuncCallStmt -> FuncCall SEP(;)
 - FuncCall -> KEY(print) SEP(() Expr SEP()) | KEY(read) SEP(() ID SEP())
 - IfStmt -> KEY(if) SEP(() Expr SEP()) Block ElsePart
 - ElsePart -> KEY(else) Block | ε
-- RepeatStmt -> Block REPEAT Expr SEP(;)
+- RepeatTail -> REPEAT Expr SEP(;) | ε
 - Expr -> EqualityExpr
 - EqualityExpr -> RelationExpr EqualityExpr'
 - EqualityExpr' -> OP2(==) RelationExpr EqualityExpr' | OP2(!=) RelationExpr EqualityExpr' | ε
@@ -699,3 +700,70 @@ LEXER_NFA:
 - PowerExpr -> PrimaryExpr PowerExpr'
 - PowerExpr' -> OP1(^) PowerExpr | ε
 - PrimaryExpr -> SEP(() Expr SEP()) | NUM_INT | NUM_FLOAT | ID
+
+# First and Follow Sets
+
+- First Sets
+  - First(Program) = First(StmtList) = {KEY(let), ID, SEP({), KEY(print), KEY(read), KEY(if), ε}
+  - First(Stmt) = {KEY(let), ID, SEP({), KEY(print), KEY(read), KEY(if)}
+  - First(DeclStmt) = {KEY(let)}
+  - First(AssignStmt) = {ID}
+  - First(BlockMaybeRepeat) = First(Block) = {SEP({)}
+  - First(FuncCallStmt) = First(FuncCall) = {KEY(print), KEY(read)}
+  - First(IfStmt) = {KEY(if)}
+  - First(ElsePart) = {KEY(else), ε}
+  - First(RepeatTail) = {REPEAT, ε}
+  - First(Expr) = First(EqualityExpr) = First(RelationExpr) = First(AddExpr) = First(MulExpr) = {SEP(() , NUM_INT, NUM_FLOAT, ID, OP1(+), OP1(-), OP1(!)}
+  - First(UnaryExpr) = {OP1(+), OP1(-), OP1(!), SEP(() , NUM_INT, NUM_FLOAT, ID}
+  - First(EqualityExpr') = {OP2(==), OP2(!=), ε}
+  - First(RelationExpr') = {OP2(>=), OP2(<=), OP1(>), OP1(<), ε}
+  - First(AddExpr') = {OP1(+), OP1(-), ε}
+  - First(MulExpr') = {OP1(*), OP1(/), ε}
+  - First(PowerExpr) = {SEP(() , NUM_INT, NUM_FLOAT, ID}
+  - First(PowerExpr') = {OP1(^), ε}
+  - First(PrimaryExpr) = {SEP(() , NUM_INT, NUM_FLOAT, ID}
+- Follow Sets
+  - Follow(Program) = {#}
+  - Follow(StmtList) = {#, SEP(})}
+  - Follow(Stmt) = Follow(DeclStmt) = Follow(AssignStmt) = Follow(IfStmt) = Follow(ElsePart) = Follow(Block) = {KEY(let), ID, SEP({), KEY(print), KEY(read), KEY(if), SEP(}), #}
+  - Follow(BlockMaybeRepeat) = {KEY(let), ID, SEP({), KEY(print), KEY(read), KEY(if), SEP(}), #, KEY(else), REPEAT}
+  - Follow(RepeatTail) = {KEY(let), ID, SEP({), KEY(print), KEY(read), KEY(if), SEP(}), #}
+  - Follow(FuncCallStmt) = Follow(FuncCall) = {SEP(;)}
+  - Follow(Expr) = Follow(EqualityExpr) = Follow(EqualityExpr') = {SEP()), SEP(;) }
+  - Follow(RelationExpr) = Follow(RelationExpr') = {OP2(==), OP2(!=), SEP()), SEP(;) }
+  - Follow(AddExpr) = Follow(AddExpr') = {OP2(>=), OP2(<=), OP1(>), OP1(<), OP2(==), OP2(!=), SEP()), SEP(;) }
+  - Follow(MulExpr) = Follow(MulExpr') = {OP1(+), OP1(-), OP2(>=), OP2(<=), OP1(>), OP1(<), OP2(==), OP2(!=), SEP()), SEP(;) }
+  - Follow(UnaryExpr) = {OP1(*), OP1(/), OP1(+), OP1(-), OP2(>=), OP2(<=), OP1(>), OP1(<), OP2(==), OP2(!=), SEP()), SEP(;) }
+  - Follow(PowerExpr) = Follow(PowerExpr') = {OP1(^), OP1(*), OP1(/), OP1(+), OP1(-), OP2(>=), OP2(<=), OP1(>), OP1(<), OP2(==), OP2(!=), SEP()), SEP(;) }
+  - Follow(PrimaryExpr) = {OP1(^), OP1(*), OP1(/), OP1(+), OP1(-), OP2(>=), OP2(<=), OP1(>), OP1(<), OP2(==), OP2(!=), SEP()), SEP(;) }
+
+# LL(1) Parsing Table
+
+| Non-Terminal     | KEY(let)           | ID                    | SEP({)                 | KEY(print)                    | KEY(read)                  | KEY(if)                                   | SEP(()                            | NUM_INT                            | NUM_FLOAT                            | OP1(+)                            | OP1(-)                            | OP1(!)                            | SEP(}) | KEY(else)       | REPEAT             | SEP(;) | #        |
+| ---------------- | ------------------ | --------------------- | ---------------------- | ----------------------------- | -------------------------- | ----------------------------------------- | --------------------------------- | ---------------------------------- | ------------------------------------ | --------------------------------- | --------------------------------- | --------------------------------- | ------ | --------------- | ------------------ | ------ | -------- |
+| Program          | StmtList           | StmtList              | StmtList               | StmtList                      | StmtList                   | StmtList                                  |                                   |                                    |                                      |                                   |                                   |                                   |        |                 |                    |        | StmtList |
+| StmtList         | Stmt StmtList      | Stmt StmtList         | Stmt StmtList          | Stmt StmtList                 | Stmt StmtList              | Stmt StmtList                             |                                   |                                    |                                      |                                   |                                   |                                   | ε      |                 |                    | ε      | ε        |
+| Stmt             | DeclStmt           | AssignStmt            | BlockMaybeRepeat       | FuncCallStmt                  | FuncCallStmt               | IfStmt                                    |                                   |                                    |                                      |                                   |                                   |                                   |        |                 |                    |        |          |
+| DeclStmt         | KEY(let) ID SEP(;) |                       |                        |                               |                            |                                           |                                   |                                    |                                      |                                   |                                   |                                   |        |                 |                    |        |          |
+| AssignStmt       |                    | ID ASSIGN Expr SEP(;) |                        |                               |                            |                                           |                                   |                                    |                                      |                                   |                                   |                                   |        |                 |                    |        |          |
+| BlockMaybeRepeat |                    |                       | Block RepeatTail       |                               |                            |                                           |                                   |                                    |                                      |                                   |                                   |                                   |        |                 |                    |        |          |
+| RepeatTail       |                    |                       |                        |                               |                            |                                           |                                   |                                    |                                      |                                   |                                   |                                   |        |                 | REPEAT Expr SEP(;) | ε      | ε        |
+| Block            |                    |                       | SEP({) StmtList SEP(}) |                               |                            |                                           |                                   |                                    |                                      |                                   |                                   |                                   |        |                 |                    |        |          |
+| FuncCallStmt     |                    |                       |                        | FuncCall SEP(;)               | FuncCall SEP(;)            |                                           |                                   |                                    |                                      |                                   |                                   |                                   |        |                 |                    |        |          |
+| FuncCall         |                    |                       |                        | KEY(print) SEP(() Expr SEP()) | KEY(read) SEP(() ID SEP()) |                                           |                                   |                                    |                                      |                                   |                                   |                                   |        |                 |                    |        |          |
+| IfStmt           |                    |                       |                        |                               |                            | KEY(if) SEP(() Expr SEP()) Block ElsePart |                                   |                                    |                                      |                                   |                                   |                                   |        |                 |                    |        |          |
+| ElsePart         |                    |                       |                        |                               |                            |                                           |                                   |                                    |                                      |                                   |                                   |                                   | ε      | KEY(else) Block |                    |        |          |
+| Expr             |                    |                       |                        |                               |                            |                                           | SEP(() Expr                       | NUM_INT Expr                       | NUM_FLOAT Expr                       | OP1(+) Expr                       | OP1(-) Expr                       | OP1(!) Expr                       |        |                 |                    |        |          |
+| EqualityExpr     |                    |                       |                        |                               |                            |                                           | SEP(() RelationExpr EqualityExpr' | NUM_INT RelationExpr EqualityExpr' | NUM_FLOAT RelationExpr EqualityExpr' | OP1(+) RelationExpr EqualityExpr' | OP1(-) RelationExpr EqualityExpr' | OP1(!) RelationExpr EqualityExpr' |        |                 |                    |        |          |
+| EqualityExpr'    |                    |                       |                        |                               |                            |                                           |                                   |                                    |                                      |                                   |                                   |                                   | ε      |                 |                    | ε      | ε        |
+| RelationExpr     |                    |                       |                        |                               |                            |                                           | SEP(() AddExpr RelationExpr'      | NUM_INT AddExpr RelationExpr'      | NUM_FLOAT AddExpr RelationExpr'      | OP1(+) AddExpr RelationExpr'      | OP1(-) AddExpr RelationExpr'      | OP1(!) AddExpr RelationExpr'      |        |                 |                    |        |          |
+| RelationExpr'    |                    |                       |                        |                               |                            |                                           |                                   |                                    |                                      |                                   |                                   |                                   | ε      |                 |                    | ε      | ε        |
+| AddExpr          |                    |                       |                        |                               |                            |                                           | SEP(() MulExpr AddExpr'           | NUM_INT MulExpr AddExpr'           | NUM_FLOAT MulExpr AddExpr'           | OP1(+) MulExpr AddExpr'           | OP1(-) MulExpr AddExpr'           | OP1(!) MulExpr AddExpr'           |        |                 |                    |        |          |
+| AddExpr'         |                    |                       |                        |                               |                            |                                           |                                   |                                    |                                      | OP1(+) MulExpr AddExpr'           | OP1(-) MulExpr AddExpr'           |                                   | ε      |                 |                    | ε      | ε        |
+| MulExpr          |                    |                       |                        |                               |                            |                                           | SEP(() UnaryExpr MulExpr'         | NUM_INT UnaryExpr MulExpr'         | NUM_FLOAT UnaryExpr MulExpr'         | OP1(+) UnaryExpr MulExpr'         | OP1(-) UnaryExpr MulExpr'         | OP1(!) UnaryExpr MulExpr'         |        |                 |                    |        |          |
+| MulExpr'         |                    |                       |                        |                               |                            |                                           |                                   |                                    |                                      |                                   |                                   |                                   | ε      |                 |                    | ε      | ε        |
+| UnaryExpr        |                    |                       |                        |                               |                            |                                           | SEP(() PowerExpr                  | NUM_INT PowerExpr                  | NUM_FLOAT PowerExpr                  | OP1(+) UnaryExpr                  | OP1(-) UnaryExpr                  | OP1(!) UnaryExpr                  |        |                 |                    |        |          |
+| PowerExpr        |                    |                       |                        |                               |                            |                                           | SEP(() PrimaryExpr PowerExpr'     | NUM_INT PrimaryExpr PowerExpr'     | NUM_FLOAT PrimaryExpr PowerExpr'     |                                   |                                   |                                   |        |                 |                    |        |          |
+| PowerExpr'       |                    |                       |                        |                               |                            |                                           |                                   |                                    |                                      |                                   |                                   |                                   | ε      |                 |                    | ε      | ε        |
+| PrimaryExpr      |                    |                       |                        |                               |                            |                                           | SEP(() Expr SEP())                | NUM_INT                            | NUM_FLOAT                            |                                   |                                   |                                   |        |                 |                    |        |          |
+
