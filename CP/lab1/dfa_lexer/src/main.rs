@@ -21,6 +21,12 @@ struct Transition {
     pattern: String,
 }
 
+#[derive(Debug, Clone)]
+pub struct Token {
+    pub kind: String,
+    pub lexeme: String,
+}
+
 #[derive(clap::Parser)]
 struct Args {
     /// dfa文件路径
@@ -44,32 +50,14 @@ fn match_symbol(sym: &str, ch: char) -> bool {
         .unwrap_or(false)
 }
 
-fn main() {
-    let args = Args::parse();
-    let json_data = std::fs::read_to_string(&args.dfa_file).expect("Failed to read DFA file");
-    let code = std::fs::read_to_string(&args.code_file).expect("Failed to read code file");
-    let dfa: DFA = serde_json::from_str(&json_data).unwrap();
-
-    // === 构建转移表 ===
+fn lex_code(dfa: &DFA, code: &str, raw_newline: bool) -> Vec<Token> {
+    let mut tokens = Vec::new();
     let mut trans: HashMap<(String, String), String> = HashMap::new();
     for t in &dfa.trans {
         trans.insert((t.from.clone(), t.pattern.clone()), t.to.clone());
     }
 
     let mut pos = 0;
-
-    // 先清空文件（truncate），再以追加模式打开
-    let _ = OpenOptions::new()
-        .create(true)
-        .write(true)
-        .truncate(true)
-        .open(&args.output_file)
-        .expect("Failed to clear output file");
-    let mut file = OpenOptions::new()
-        .create(true)
-        .append(true)
-        .open(&args.output_file)
-        .expect("Failed to open output file for append");
     while pos < code.len() {
         let mut current_state = dfa.start.clone();
         let mut last_accept_state: Option<String> = None;
@@ -98,20 +86,16 @@ fn main() {
         }
 
         if let Some(state) = last_accept_state {
-            let mut token_text = code[pos..last_accept_pos].to_string();
-            if !args.raw_newline {
-                token_text = token_text.replace('\n', "\\n");
+            let mut lexeme = code[pos..last_accept_pos].to_string();
+            if !raw_newline {
+                lexeme = lexeme.replace('\n', "\\n");
             }
-            writeln!(file, "AcceptState: {:<15} Lexeme: '{}'", state, token_text)
-                .expect("Failed to write to output file");
+            tokens.push(Token {
+                kind: state,
+                lexeme,
+            });
             pos = last_accept_pos;
         } else {
-            writeln!(
-                file,
-                "Unrecognized char: '{}'",
-                code[pos..].chars().next().unwrap()
-            )
-            .expect("Failed to write to output file");
             eprintln!(
                 "Unrecognized char: '{}'",
                 code[pos..].chars().next().unwrap()
@@ -119,6 +103,45 @@ fn main() {
             pos += 1;
         }
     }
+
+    tokens
+}
+
+fn main() {
+    let args = Args::parse();
+    let json_data = std::fs::read_to_string(&args.dfa_file).expect("Failed to read DFA file");
+    let code = std::fs::read_to_string(&args.code_file).expect("Failed to read code file");
+    let dfa: DFA = serde_json::from_str(&json_data).unwrap();
+
+    // === 构建转移表 ===
+    let mut trans: HashMap<(String, String), String> = HashMap::new();
+    for t in &dfa.trans {
+        trans.insert((t.from.clone(), t.pattern.clone()), t.to.clone());
+    }
+
+    let tokens = lex_code(&dfa, &code, args.raw_newline);
+    // 先清空文件（truncate），再以追加模式打开
+    let _ = OpenOptions::new()
+        .create(true)
+        .write(true)
+        .truncate(true)
+        .open(&args.output_file)
+        .expect("Failed to clear output file");
+    let mut file = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(&args.output_file)
+        .expect("Failed to open output file for append");
+
+    for token in tokens {
+        writeln!(
+            file,
+            "AcceptState: {:<15} Lexeme: '{}'",
+            token.kind, token.lexeme
+        )
+        .expect("Failed to write to output file");
+    }
+
     println!(
         "Lexical analysis completed. Output written to {:?}",
         args.output_file

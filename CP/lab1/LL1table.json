@@ -1,0 +1,507 @@
+{
+    "nonterminals": [
+        "Program",
+        "StmtList",
+        "Stmt",
+        "DeclStmt",
+        "AssignStmt",
+        "BlockMaybeRepeat",
+        "RepeatTail",
+        "Block",
+        "FuncCallStmt",
+        "FuncCall",
+        "IfStmt",
+        "ElsePart",
+        "Expr",
+        "EqualityExpr",
+        "EqualityExpr'",
+        "RelationExpr",
+        "RelationExpr'",
+        "AddExpr",
+        "AddExpr'",
+        "MulExpr",
+        "MulExpr'",
+        "UnaryExpr",
+        "PowerExpr",
+        "PowerExpr'",
+        "PrimaryExpr"
+    ],
+    "terminals": [
+        "KEY(let)",
+        "ID",
+        "SEP({)",
+        "KEY(print)",
+        "KEY(read)",
+        "KEY(if)",
+        "SEP(()",
+        "NUM_INT",
+        "NUM_FLOAT",
+        "OP1(+)",
+        "OP1(-)",
+        "OP1(!)",
+        "SEP(})",
+        "KEY(else)",
+        "REPEAT",
+        "SEP(;)",
+        "ASSIGN",
+        "SEP())",
+        "#"
+    ],
+    "table": {
+        "Program": {
+            "KEY(let)": [
+                "StmtList"
+            ],
+            "ID": [
+                "StmtList"
+            ],
+            "SEP({)": [
+                "StmtList"
+            ],
+            "KEY(print)": [
+                "StmtList"
+            ],
+            "KEY(read)": [
+                "StmtList"
+            ],
+            "KEY(if)": [
+                "StmtList"
+            ],
+            "#": [
+                "StmtList"
+            ]
+        },
+        "StmtList": {
+            "KEY(let)": [
+                "Stmt",
+                "StmtList"
+            ],
+            "ID": [
+                "Stmt",
+                "StmtList"
+            ],
+            "SEP({)": [
+                "Stmt",
+                "StmtList"
+            ],
+            "KEY(print)": [
+                "Stmt",
+                "StmtList"
+            ],
+            "KEY(read)": [
+                "Stmt",
+                "StmtList"
+            ],
+            "KEY(if)": [
+                "Stmt",
+                "StmtList"
+            ],
+            "SEP(})": [],
+            "SEP(;)": [],
+            "#": []
+        },
+        "Stmt": {
+            "KEY(let)": [
+                "DeclStmt"
+            ],
+            "ID": [
+                "AssignStmt"
+            ],
+            "SEP({)": [
+                "BlockMaybeRepeat"
+            ],
+            "KEY(print)": [
+                "FuncCallStmt"
+            ],
+            "KEY(read)": [
+                "FuncCallStmt"
+            ],
+            "KEY(if)": [
+                "IfStmt"
+            ]
+        },
+        "DeclStmt": {
+            "KEY(let)": [
+                "KEY(let)",
+                "ID",
+                "SEP(;)"
+            ]
+        },
+        "AssignStmt": {
+            "ID": [
+                "ID",
+                "ASSIGN",
+                "Expr",
+                "SEP(;)"
+            ]
+        },
+        "BlockMaybeRepeat": {
+            "SEP({)": [
+                "Block",
+                "RepeatTail"
+            ]
+        },
+        "RepeatTail": {
+            "REPEAT": [
+                "REPEAT",
+                "Expr",
+                "SEP(;)"
+            ],
+            "SEP(})": [],
+            "#": []
+        },
+        "Block": {
+            "SEP({)": [
+                "SEP({)",
+                "StmtList",
+                "SEP(})"
+            ]
+        },
+        "FuncCallStmt": {
+            "KEY(print)": [
+                "FuncCall",
+                "SEP(;)"
+            ],
+            "KEY(read)": [
+                "FuncCall",
+                "SEP(;)"
+            ]
+        },
+        "FuncCall": {
+            "KEY(print)": [
+                "KEY(print)",
+                "SEP(()",
+                "Expr",
+                "SEP())"
+            ],
+            "KEY(read)": [
+                "KEY(read)",
+                "SEP(()",
+                "ID",
+                "SEP())"
+            ]
+        },
+        "IfStmt": {
+            "KEY(if)": [
+                "KEY(if)",
+                "SEP(()",
+                "Expr",
+                "SEP())",
+                "Block",
+                "ElsePart"
+            ]
+        },
+        "ElsePart": {
+            "KEY(else)": [
+                "KEY(else)",
+                "Block"
+            ],
+            "SEP(})": [],
+            "SEP(;)": [],
+            "#": []
+        },
+        "Expr": {
+            "SEP(()": [
+                "EqualityExpr"
+            ],
+            "ID": [
+                "EqualityExpr"
+            ],
+            "NUM_INT": [
+                "EqualityExpr"
+            ],
+            "NUM_FLOAT": [
+                "EqualityExpr"
+            ],
+            "OP1(+)": [
+                "EqualityExpr"
+            ],
+            "OP1(-)": [
+                "EqualityExpr"
+            ],
+            "OP1(!)": [
+                "EqualityExpr"
+            ]
+        },
+        "EqualityExpr": {
+            "SEP(()": [
+                "RelationExpr",
+                "EqualityExpr'"
+            ],
+            "ID": [
+                "RelationExpr",
+                "EqualityExpr'"
+            ],
+            "NUM_INT": [
+                "RelationExpr",
+                "EqualityExpr'"
+            ],
+            "NUM_FLOAT": [
+                "RelationExpr",
+                "EqualityExpr'"
+            ],
+            "OP1(+)": [
+                "RelationExpr",
+                "EqualityExpr'"
+            ],
+            "OP1(-)": [
+                "RelationExpr",
+                "EqualityExpr'"
+            ],
+            "OP1(!)": [
+                "RelationExpr",
+                "EqualityExpr'"
+            ]
+        },
+        "EqualityExpr'": {
+            "OP2(==)": [
+                "OP2(==)",
+                "RelationExpr",
+                "EqualityExpr'"
+            ],
+            "OP2(!=)": [
+                "OP2(!=)",
+                "RelationExpr",
+                "EqualityExpr'"
+            ],
+            "SEP())": [],
+            "SEP(;)": []
+        },
+        "RelationExpr": {
+            "SEP(()": [
+                "AddExpr",
+                "RelationExpr'"
+            ],
+            "ID": [
+                "AddExpr",
+                "RelationExpr'"
+            ],
+            "NUM_INT": [
+                "AddExpr",
+                "RelationExpr'"
+            ],
+            "NUM_FLOAT": [
+                "AddExpr",
+                "RelationExpr'"
+            ],
+            "OP1(+)": [
+                "AddExpr",
+                "RelationExpr'"
+            ],
+            "OP1(-)": [
+                "AddExpr",
+                "RelationExpr'"
+            ],
+            "OP1(!)": [
+                "AddExpr",
+                "RelationExpr'"
+            ]
+        },
+        "RelationExpr'": {
+            "OP2(<)": [
+                "OP2(<)",
+                "AddExpr",
+                "RelationExpr'"
+            ],
+            "OP2(<=)": [
+                "OP2(<=)",
+                "AddExpr",
+                "RelationExpr'"
+            ],
+            "OP2(>)": [
+                "OP2(>)",
+                "AddExpr",
+                "RelationExpr'"
+            ],
+            "OP2(>=)": [
+                "OP2(>=)",
+                "AddExpr",
+                "RelationExpr'"
+            ],
+            "OP2(==)": [],
+            "OP2(!=)": [],
+            "SEP())": [],
+            "SEP(;)": []
+        },
+        "AddExpr": {
+            "SEP(()": [
+                "MulExpr",
+                "AddExpr'"
+            ],
+            "ID": [
+                "MulExpr",
+                "AddExpr'"
+            ],
+            "NUM_INT": [
+                "MulExpr",
+                "AddExpr'"
+            ],
+            "NUM_FLOAT": [
+                "MulExpr",
+                "AddExpr'"
+            ],
+            "OP1(+)": [
+                "MulExpr",
+                "AddExpr'"
+            ],
+            "OP1(-)": [
+                "MulExpr",
+                "AddExpr'"
+            ],
+            "OP1(!)": [
+                "MulExpr",
+                "AddExpr'"
+            ]
+        },
+        "AddExpr'": {
+            "OP1(+)": [
+                "OP1(+)",
+                "MulExpr",
+                "AddExpr'"
+            ],
+            "OP1(-)": [
+                "OP1(-)",
+                "MulExpr",
+                "AddExpr'"
+            ],
+            "OP2(<)": [],
+            "OP2(<=)": [],
+            "OP2(>)": [],
+            "OP2(>=)": [],
+            "OP2(==)": [],
+            "OP2(!=)": [],
+            "SEP())": [],
+            "SEP(;)": []
+        },
+        "MulExpr": {
+            "SEP(()": [
+                "UnaryExpr",
+                "MulExpr'"
+            ],
+            "ID": [
+                "UnaryExpr",
+                "MulExpr'"
+            ],
+            "NUM_INT": [
+                "UnaryExpr",
+                "MulExpr'"
+            ],
+            "NUM_FLOAT": [
+                "UnaryExpr",
+                "MulExpr'"
+            ],
+            "OP1(+)": [
+                "UnaryExpr",
+                "MulExpr'"
+            ],
+            "OP1(-)": [
+                "UnaryExpr",
+                "MulExpr'"
+            ],
+            "OP1(!)": [
+                "UnaryExpr",
+                "MulExpr'"
+            ]
+        },
+        "MulExpr'": {
+            "OP2(*)": [
+                "OP2(*)",
+                "UnaryExpr",
+                "MulExpr'"
+            ],
+            "OP2(/)": [
+                "OP2(/)",
+                "UnaryExpr",
+                "MulExpr'"
+            ],
+            "OP1(+)": [],
+            "OP1(-)": [],
+            "OP2(<)": [],
+            "OP2(<=)": [],
+            "OP2(>)": [],
+            "OP2(>=)": [],
+            "OP2(==)": [],
+            "OP2(!=)": [],
+            "SEP())": [],
+            "SEP(;)": []
+        },
+        "UnaryExpr": {
+            "OP1(+)": [
+                "OP1(+)",
+                "UnaryExpr"
+            ],
+            "OP1(-)": [
+                "OP1(-)",
+                "UnaryExpr"
+            ],
+            "OP1(!)": [
+                "OP1(!)",
+                "UnaryExpr"
+            ],
+            "SEP(()": [
+                "PowerExpr"
+            ],
+            "ID": [
+                "PowerExpr"
+            ],
+            "NUM_INT": [
+                "PowerExpr"
+            ],
+            "NUM_FLOAT": [
+                "PowerExpr"
+            ]
+        },
+        "PowerExpr": {
+            "SEP(()": [
+                "PrimaryExpr",
+                "PowerExpr'"
+            ],
+            "ID": [
+                "PrimaryExpr",
+                "PowerExpr'"
+            ],
+            "NUM_INT": [
+                "PrimaryExpr",
+                "PowerExpr'"
+            ],
+            "NUM_FLOAT": [
+                "PrimaryExpr",
+                "PowerExpr'"
+            ]
+        },
+        "PowerExpr'": {
+            "OP2(^)": [
+                "OP2(^)",
+                "PowerExpr"
+            ],
+            "OP2(*)": [],
+            "OP2(/)": [],
+            "OP1(+)": [],
+            "OP1(-)": [],
+            "OP2(<)": [],
+            "OP2(<=)": [],
+            "OP2(>)": [],
+            "OP2(>=)": [],
+            "OP2(==)": [],
+            "OP2(!=)": [],
+            "SEP())": [],
+            "SEP(;)": []
+        },
+        "PrimaryExpr": {
+            "SEP(()": [
+                "SEP(()",
+                "Expr",
+                "SEP())"
+            ],
+            "ID": [
+                "ID"
+            ],
+            "NUM_INT": [
+                "NUM_INT"
+            ],
+            "NUM_FLOAT": [
+                "NUM_FLOAT"
+            ]
+        }
+    }
+}
