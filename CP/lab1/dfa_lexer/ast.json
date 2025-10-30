@@ -1,0 +1,1609 @@
+{
+  "type": "NonTerminal",
+  "kind": "Program",
+  "children": [
+    {
+      "type": "NonTerminal",
+      "kind": "StmtList",
+      "children": [
+        {
+          "type": "NonTerminal",
+          "kind": "Stmt",
+          "children": [
+            {
+              "type": "NonTerminal",
+              "kind": "DeclStmt",
+              "children": [
+                {
+                  "kind": "Terminal",
+                  "token": {
+                    "kind": "KEY",
+                    "lexeme": "let"
+                  }
+                },
+                {
+                  "kind": "Terminal",
+                  "token": {
+                    "kind": "ID",
+                    "lexeme": "x"
+                  }
+                },
+                {
+                  "kind": "Terminal",
+                  "token": {
+                    "kind": "SEP",
+                    "lexeme": ";"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "NonTerminal",
+          "kind": "StmtList",
+          "children": [
+            {
+              "type": "NonTerminal",
+              "kind": "Stmt",
+              "children": [
+                {
+                  "type": "NonTerminal",
+                  "kind": "AssignStmt",
+                  "children": [
+                    {
+                      "kind": "Terminal",
+                      "token": {
+                        "kind": "ID",
+                        "lexeme": "x"
+                      }
+                    },
+                    {
+                      "kind": "Terminal",
+                      "token": {
+                        "kind": "ASSIGN",
+                        "lexeme": "="
+                      }
+                    },
+                    {
+                      "type": "NonTerminal",
+                      "kind": "Expr",
+                      "children": [
+                        {
+                          "type": "NonTerminal",
+                          "kind": "EqualityExpr",
+                          "children": [
+                            {
+                              "type": "NonTerminal",
+                              "kind": "RelationExpr",
+                              "children": [
+                                {
+                                  "type": "NonTerminal",
+                                  "kind": "AddExpr",
+                                  "children": [
+                                    {
+                                      "type": "NonTerminal",
+                                      "kind": "MulExpr",
+                                      "children": [
+                                        {
+                                          "type": "NonTerminal",
+                                          "kind": "UnaryExpr",
+                                          "children": [
+                                            {
+                                              "type": "NonTerminal",
+                                              "kind": "PowerExpr",
+                                              "children": [
+                                                {
+                                                  "type": "NonTerminal",
+                                                  "kind": "PrimaryExpr",
+                                                  "children": [
+                                                    {
+                                                      "kind": "Terminal",
+                                                      "token": {
+                                                        "kind": "NUM_INT",
+                                                        "lexeme": "42"
+                                                      }
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "type": "NonTerminal",
+                                                  "kind": "PowerExpr'",
+                                                  "children": []
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "NonTerminal",
+                                          "kind": "MulExpr'",
+                                          "children": []
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "NonTerminal",
+                                      "kind": "AddExpr'",
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "NonTerminal",
+                                  "kind": "RelationExpr'",
+                                  "children": []
+                                }
+                              ]
+                            },
+                            {
+                              "type": "NonTerminal",
+                              "kind": "EqualityExpr'",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Terminal",
+                      "token": {
+                        "kind": "SEP",
+                        "lexeme": ";"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "NonTerminal",
+              "kind": "StmtList",
+              "children": [
+                {
+                  "type": "NonTerminal",
+                  "kind": "Stmt",
+                  "children": [
+                    {
+                      "type": "NonTerminal",
+                      "kind": "DeclStmt",
+                      "children": [
+                        {
+                          "kind": "Terminal",
+                          "token": {
+                            "kind": "KEY",
+                            "lexeme": "let"
+                          }
+                        },
+                        {
+                          "kind": "Terminal",
+                          "token": {
+                            "kind": "ID",
+                            "lexeme": "y"
+                          }
+                        },
+                        {
+                          "kind": "Terminal",
+                          "token": {
+                            "kind": "SEP",
+                            "lexeme": ";"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "NonTerminal",
+                  "kind": "StmtList",
+                  "children": [
+                    {
+                      "type": "NonTerminal",
+                      "kind": "Stmt",
+                      "children": [
+                        {
+                          "type": "NonTerminal",
+                          "kind": "FuncCallStmt",
+                          "children": [
+                            {
+                              "type": "NonTerminal",
+                              "kind": "FuncCall",
+                              "children": [
+                                {
+                                  "kind": "Terminal",
+                                  "token": {
+                                    "kind": "KEY",
+                                    "lexeme": "read"
+                                  }
+                                },
+                                {
+                                  "kind": "Terminal",
+                                  "token": {
+                                    "kind": "SEP",
+                                    "lexeme": "("
+                                  }
+                                },
+                                {
+                                  "kind": "Terminal",
+                                  "token": {
+                                    "kind": "ID",
+                                    "lexeme": "y"
+                                  }
+                                },
+                                {
+                                  "kind": "Terminal",
+                                  "token": {
+                                    "kind": "SEP",
+                                    "lexeme": ")"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "kind": "Terminal",
+                              "token": {
+                                "kind": "SEP",
+                                "lexeme": ";"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "NonTerminal",
+                      "kind": "StmtList",
+                      "children": [
+                        {
+                          "type": "NonTerminal",
+                          "kind": "Stmt",
+                          "children": [
+                            {
+                              "type": "NonTerminal",
+                              "kind": "DeclStmt",
+                              "children": [
+                                {
+                                  "kind": "Terminal",
+                                  "token": {
+                                    "kind": "KEY",
+                                    "lexeme": "let"
+                                  }
+                                },
+                                {
+                                  "kind": "Terminal",
+                                  "token": {
+                                    "kind": "ID",
+                                    "lexeme": "abc"
+                                  }
+                                },
+                                {
+                                  "kind": "Terminal",
+                                  "token": {
+                                    "kind": "SEP",
+                                    "lexeme": ";"
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "NonTerminal",
+                          "kind": "StmtList",
+                          "children": [
+                            {
+                              "type": "NonTerminal",
+                              "kind": "Stmt",
+                              "children": [
+                                {
+                                  "type": "NonTerminal",
+                                  "kind": "AssignStmt",
+                                  "children": [
+                                    {
+                                      "kind": "Terminal",
+                                      "token": {
+                                        "kind": "ID",
+                                        "lexeme": "abc"
+                                      }
+                                    },
+                                    {
+                                      "kind": "Terminal",
+                                      "token": {
+                                        "kind": "ASSIGN",
+                                        "lexeme": "="
+                                      }
+                                    },
+                                    {
+                                      "type": "NonTerminal",
+                                      "kind": "Expr",
+                                      "children": [
+                                        {
+                                          "type": "NonTerminal",
+                                          "kind": "EqualityExpr",
+                                          "children": [
+                                            {
+                                              "type": "NonTerminal",
+                                              "kind": "RelationExpr",
+                                              "children": [
+                                                {
+                                                  "type": "NonTerminal",
+                                                  "kind": "AddExpr",
+                                                  "children": [
+                                                    {
+                                                      "type": "NonTerminal",
+                                                      "kind": "MulExpr",
+                                                      "children": [
+                                                        {
+                                                          "type": "NonTerminal",
+                                                          "kind": "UnaryExpr",
+                                                          "children": [
+                                                            {
+                                                              "type": "NonTerminal",
+                                                              "kind": "PowerExpr",
+                                                              "children": [
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "PrimaryExpr",
+                                                                  "children": [
+                                                                    {
+                                                                      "kind": "Terminal",
+                                                                      "token": {
+                                                                        "kind": "ID",
+                                                                        "lexeme": "x"
+                                                                      }
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "PowerExpr'",
+                                                                  "children": []
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        },
+                                                        {
+                                                          "type": "NonTerminal",
+                                                          "kind": "MulExpr'",
+                                                          "children": []
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "type": "NonTerminal",
+                                                      "kind": "AddExpr'",
+                                                      "children": [
+                                                        {
+                                                          "kind": "Terminal",
+                                                          "token": {
+                                                            "kind": "OP1",
+                                                            "lexeme": "+"
+                                                          }
+                                                        },
+                                                        {
+                                                          "type": "NonTerminal",
+                                                          "kind": "MulExpr",
+                                                          "children": [
+                                                            {
+                                                              "type": "NonTerminal",
+                                                              "kind": "UnaryExpr",
+                                                              "children": [
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "PowerExpr",
+                                                                  "children": [
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "PrimaryExpr",
+                                                                      "children": [
+                                                                        {
+                                                                          "kind": "Terminal",
+                                                                          "token": {
+                                                                            "kind": "ID",
+                                                                            "lexeme": "y"
+                                                                          }
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "PowerExpr'",
+                                                                      "children": []
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            },
+                                                            {
+                                                              "type": "NonTerminal",
+                                                              "kind": "MulExpr'",
+                                                              "children": []
+                                                            }
+                                                          ]
+                                                        },
+                                                        {
+                                                          "type": "NonTerminal",
+                                                          "kind": "AddExpr'",
+                                                          "children": [
+                                                            {
+                                                              "kind": "Terminal",
+                                                              "token": {
+                                                                "kind": "OP1",
+                                                                "lexeme": "+"
+                                                              }
+                                                            },
+                                                            {
+                                                              "type": "NonTerminal",
+                                                              "kind": "MulExpr",
+                                                              "children": [
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "UnaryExpr",
+                                                                  "children": [
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "PowerExpr",
+                                                                      "children": [
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "PrimaryExpr",
+                                                                          "children": [
+                                                                            {
+                                                                              "kind": "Terminal",
+                                                                              "token": {
+                                                                                "kind": "NUM_FLOAT",
+                                                                                "lexeme": "23.3"
+                                                                              }
+                                                                            }
+                                                                          ]
+                                                                        },
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "PowerExpr'",
+                                                                          "children": []
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "MulExpr'",
+                                                                  "children": []
+                                                                }
+                                                              ]
+                                                            },
+                                                            {
+                                                              "type": "NonTerminal",
+                                                              "kind": "AddExpr'",
+                                                              "children": []
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "type": "NonTerminal",
+                                                  "kind": "RelationExpr'",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "type": "NonTerminal",
+                                              "kind": "EqualityExpr'",
+                                              "children": []
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "kind": "Terminal",
+                                      "token": {
+                                        "kind": "SEP",
+                                        "lexeme": ";"
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "NonTerminal",
+                              "kind": "StmtList",
+                              "children": [
+                                {
+                                  "type": "NonTerminal",
+                                  "kind": "Stmt",
+                                  "children": [
+                                    {
+                                      "type": "NonTerminal",
+                                      "kind": "BlockMaybeRepeat",
+                                      "children": [
+                                        {
+                                          "type": "NonTerminal",
+                                          "kind": "Block",
+                                          "children": [
+                                            {
+                                              "kind": "Terminal",
+                                              "token": {
+                                                "kind": "SEP",
+                                                "lexeme": "{"
+                                              }
+                                            },
+                                            {
+                                              "type": "NonTerminal",
+                                              "kind": "StmtList",
+                                              "children": [
+                                                {
+                                                  "type": "NonTerminal",
+                                                  "kind": "Stmt",
+                                                  "children": [
+                                                    {
+                                                      "type": "NonTerminal",
+                                                      "kind": "AssignStmt",
+                                                      "children": [
+                                                        {
+                                                          "kind": "Terminal",
+                                                          "token": {
+                                                            "kind": "ID",
+                                                            "lexeme": "abc"
+                                                          }
+                                                        },
+                                                        {
+                                                          "kind": "Terminal",
+                                                          "token": {
+                                                            "kind": "ASSIGN",
+                                                            "lexeme": "="
+                                                          }
+                                                        },
+                                                        {
+                                                          "type": "NonTerminal",
+                                                          "kind": "Expr",
+                                                          "children": [
+                                                            {
+                                                              "type": "NonTerminal",
+                                                              "kind": "EqualityExpr",
+                                                              "children": [
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "RelationExpr",
+                                                                  "children": [
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "AddExpr",
+                                                                      "children": [
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "MulExpr",
+                                                                          "children": [
+                                                                            {
+                                                                              "type": "NonTerminal",
+                                                                              "kind": "UnaryExpr",
+                                                                              "children": [
+                                                                                {
+                                                                                  "type": "NonTerminal",
+                                                                                  "kind": "PowerExpr",
+                                                                                  "children": [
+                                                                                    {
+                                                                                      "type": "NonTerminal",
+                                                                                      "kind": "PrimaryExpr",
+                                                                                      "children": [
+                                                                                        {
+                                                                                          "kind": "Terminal",
+                                                                                          "token": {
+                                                                                            "kind": "ID",
+                                                                                            "lexeme": "abc"
+                                                                                          }
+                                                                                        }
+                                                                                      ]
+                                                                                    },
+                                                                                    {
+                                                                                      "type": "NonTerminal",
+                                                                                      "kind": "PowerExpr'",
+                                                                                      "children": []
+                                                                                    }
+                                                                                  ]
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            {
+                                                                              "type": "NonTerminal",
+                                                                              "kind": "MulExpr'",
+                                                                              "children": [
+                                                                                {
+                                                                                  "kind": "Terminal",
+                                                                                  "token": {
+                                                                                    "kind": "OP1",
+                                                                                    "lexeme": "*"
+                                                                                  }
+                                                                                },
+                                                                                {
+                                                                                  "type": "NonTerminal",
+                                                                                  "kind": "UnaryExpr",
+                                                                                  "children": [
+                                                                                    {
+                                                                                      "type": "NonTerminal",
+                                                                                      "kind": "PowerExpr",
+                                                                                      "children": [
+                                                                                        {
+                                                                                          "type": "NonTerminal",
+                                                                                          "kind": "PrimaryExpr",
+                                                                                          "children": [
+                                                                                            {
+                                                                                              "kind": "Terminal",
+                                                                                              "token": {
+                                                                                                "kind": "NUM_FLOAT",
+                                                                                                "lexeme": "23.3"
+                                                                                              }
+                                                                                            }
+                                                                                          ]
+                                                                                        },
+                                                                                        {
+                                                                                          "type": "NonTerminal",
+                                                                                          "kind": "PowerExpr'",
+                                                                                          "children": []
+                                                                                        }
+                                                                                      ]
+                                                                                    }
+                                                                                  ]
+                                                                                },
+                                                                                {
+                                                                                  "type": "NonTerminal",
+                                                                                  "kind": "MulExpr'",
+                                                                                  "children": []
+                                                                                }
+                                                                              ]
+                                                                            }
+                                                                          ]
+                                                                        },
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "AddExpr'",
+                                                                          "children": []
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "RelationExpr'",
+                                                                      "children": []
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "EqualityExpr'",
+                                                                  "children": []
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        },
+                                                        {
+                                                          "kind": "Terminal",
+                                                          "token": {
+                                                            "kind": "SEP",
+                                                            "lexeme": ";"
+                                                          }
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "type": "NonTerminal",
+                                                  "kind": "StmtList",
+                                                  "children": []
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "kind": "Terminal",
+                                              "token": {
+                                                "kind": "SEP",
+                                                "lexeme": "}"
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "NonTerminal",
+                                          "kind": "RepeatTail",
+                                          "children": [
+                                            {
+                                              "kind": "Terminal",
+                                              "token": {
+                                                "kind": "REPEAT",
+                                                "lexeme": "^^"
+                                              }
+                                            },
+                                            {
+                                              "type": "NonTerminal",
+                                              "kind": "Expr",
+                                              "children": [
+                                                {
+                                                  "type": "NonTerminal",
+                                                  "kind": "EqualityExpr",
+                                                  "children": [
+                                                    {
+                                                      "type": "NonTerminal",
+                                                      "kind": "RelationExpr",
+                                                      "children": [
+                                                        {
+                                                          "type": "NonTerminal",
+                                                          "kind": "AddExpr",
+                                                          "children": [
+                                                            {
+                                                              "type": "NonTerminal",
+                                                              "kind": "MulExpr",
+                                                              "children": [
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "UnaryExpr",
+                                                                  "children": [
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "PowerExpr",
+                                                                      "children": [
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "PrimaryExpr",
+                                                                          "children": [
+                                                                            {
+                                                                              "kind": "Terminal",
+                                                                              "token": {
+                                                                                "kind": "NUM_INT",
+                                                                                "lexeme": "66"
+                                                                              }
+                                                                            }
+                                                                          ]
+                                                                        },
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "PowerExpr'",
+                                                                          "children": []
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "MulExpr'",
+                                                                  "children": []
+                                                                }
+                                                              ]
+                                                            },
+                                                            {
+                                                              "type": "NonTerminal",
+                                                              "kind": "AddExpr'",
+                                                              "children": []
+                                                            }
+                                                          ]
+                                                        },
+                                                        {
+                                                          "type": "NonTerminal",
+                                                          "kind": "RelationExpr'",
+                                                          "children": []
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "type": "NonTerminal",
+                                                      "kind": "EqualityExpr'",
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "kind": "Terminal",
+                                              "token": {
+                                                "kind": "SEP",
+                                                "lexeme": ";"
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "NonTerminal",
+                                  "kind": "StmtList",
+                                  "children": [
+                                    {
+                                      "type": "NonTerminal",
+                                      "kind": "Stmt",
+                                      "children": [
+                                        {
+                                          "type": "NonTerminal",
+                                          "kind": "IfStmt",
+                                          "children": [
+                                            {
+                                              "kind": "Terminal",
+                                              "token": {
+                                                "kind": "KEY",
+                                                "lexeme": "if"
+                                              }
+                                            },
+                                            {
+                                              "kind": "Terminal",
+                                              "token": {
+                                                "kind": "SEP",
+                                                "lexeme": "("
+                                              }
+                                            },
+                                            {
+                                              "type": "NonTerminal",
+                                              "kind": "Expr",
+                                              "children": [
+                                                {
+                                                  "type": "NonTerminal",
+                                                  "kind": "EqualityExpr",
+                                                  "children": [
+                                                    {
+                                                      "type": "NonTerminal",
+                                                      "kind": "RelationExpr",
+                                                      "children": [
+                                                        {
+                                                          "type": "NonTerminal",
+                                                          "kind": "AddExpr",
+                                                          "children": [
+                                                            {
+                                                              "type": "NonTerminal",
+                                                              "kind": "MulExpr",
+                                                              "children": [
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "UnaryExpr",
+                                                                  "children": [
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "PowerExpr",
+                                                                      "children": [
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "PrimaryExpr",
+                                                                          "children": [
+                                                                            {
+                                                                              "kind": "Terminal",
+                                                                              "token": {
+                                                                                "kind": "ID",
+                                                                                "lexeme": "x"
+                                                                              }
+                                                                            }
+                                                                          ]
+                                                                        },
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "PowerExpr'",
+                                                                          "children": []
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "MulExpr'",
+                                                                  "children": []
+                                                                }
+                                                              ]
+                                                            },
+                                                            {
+                                                              "type": "NonTerminal",
+                                                              "kind": "AddExpr'",
+                                                              "children": []
+                                                            }
+                                                          ]
+                                                        },
+                                                        {
+                                                          "type": "NonTerminal",
+                                                          "kind": "RelationExpr'",
+                                                          "children": [
+                                                            {
+                                                              "kind": "Terminal",
+                                                              "token": {
+                                                                "kind": "OP2",
+                                                                "lexeme": ">="
+                                                              }
+                                                            },
+                                                            {
+                                                              "type": "NonTerminal",
+                                                              "kind": "AddExpr",
+                                                              "children": [
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "MulExpr",
+                                                                  "children": [
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "UnaryExpr",
+                                                                      "children": [
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "PowerExpr",
+                                                                          "children": [
+                                                                            {
+                                                                              "type": "NonTerminal",
+                                                                              "kind": "PrimaryExpr",
+                                                                              "children": [
+                                                                                {
+                                                                                  "kind": "Terminal",
+                                                                                  "token": {
+                                                                                    "kind": "ID",
+                                                                                    "lexeme": "y"
+                                                                                  }
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            {
+                                                                              "type": "NonTerminal",
+                                                                              "kind": "PowerExpr'",
+                                                                              "children": []
+                                                                            }
+                                                                          ]
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "MulExpr'",
+                                                                      "children": []
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "AddExpr'",
+                                                                  "children": [
+                                                                    {
+                                                                      "kind": "Terminal",
+                                                                      "token": {
+                                                                        "kind": "OP1",
+                                                                        "lexeme": "+"
+                                                                      }
+                                                                    },
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "MulExpr",
+                                                                      "children": [
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "UnaryExpr",
+                                                                          "children": [
+                                                                            {
+                                                                              "type": "NonTerminal",
+                                                                              "kind": "PowerExpr",
+                                                                              "children": [
+                                                                                {
+                                                                                  "type": "NonTerminal",
+                                                                                  "kind": "PrimaryExpr",
+                                                                                  "children": [
+                                                                                    {
+                                                                                      "kind": "Terminal",
+                                                                                      "token": {
+                                                                                        "kind": "ID",
+                                                                                        "lexeme": "x"
+                                                                                      }
+                                                                                    }
+                                                                                  ]
+                                                                                },
+                                                                                {
+                                                                                  "type": "NonTerminal",
+                                                                                  "kind": "PowerExpr'",
+                                                                                  "children": []
+                                                                                }
+                                                                              ]
+                                                                            }
+                                                                          ]
+                                                                        },
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "MulExpr'",
+                                                                          "children": []
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "AddExpr'",
+                                                                      "children": []
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            },
+                                                            {
+                                                              "type": "NonTerminal",
+                                                              "kind": "RelationExpr'",
+                                                              "children": []
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "type": "NonTerminal",
+                                                      "kind": "EqualityExpr'",
+                                                      "children": [
+                                                        {
+                                                          "kind": "Terminal",
+                                                          "token": {
+                                                            "kind": "OP2",
+                                                            "lexeme": "=="
+                                                          }
+                                                        },
+                                                        {
+                                                          "type": "NonTerminal",
+                                                          "kind": "RelationExpr",
+                                                          "children": [
+                                                            {
+                                                              "type": "NonTerminal",
+                                                              "kind": "AddExpr",
+                                                              "children": [
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "MulExpr",
+                                                                  "children": [
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "UnaryExpr",
+                                                                      "children": [
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "PowerExpr",
+                                                                          "children": [
+                                                                            {
+                                                                              "type": "NonTerminal",
+                                                                              "kind": "PrimaryExpr",
+                                                                              "children": [
+                                                                                {
+                                                                                  "kind": "Terminal",
+                                                                                  "token": {
+                                                                                    "kind": "ID",
+                                                                                    "lexeme": "y"
+                                                                                  }
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            {
+                                                                              "type": "NonTerminal",
+                                                                              "kind": "PowerExpr'",
+                                                                              "children": []
+                                                                            }
+                                                                          ]
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "MulExpr'",
+                                                                      "children": []
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "AddExpr'",
+                                                                  "children": [
+                                                                    {
+                                                                      "kind": "Terminal",
+                                                                      "token": {
+                                                                        "kind": "OP1",
+                                                                        "lexeme": "+"
+                                                                      }
+                                                                    },
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "MulExpr",
+                                                                      "children": [
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "UnaryExpr",
+                                                                          "children": [
+                                                                            {
+                                                                              "type": "NonTerminal",
+                                                                              "kind": "PowerExpr",
+                                                                              "children": [
+                                                                                {
+                                                                                  "type": "NonTerminal",
+                                                                                  "kind": "PrimaryExpr",
+                                                                                  "children": [
+                                                                                    {
+                                                                                      "kind": "Terminal",
+                                                                                      "token": {
+                                                                                        "kind": "ID",
+                                                                                        "lexeme": "x"
+                                                                                      }
+                                                                                    }
+                                                                                  ]
+                                                                                },
+                                                                                {
+                                                                                  "type": "NonTerminal",
+                                                                                  "kind": "PowerExpr'",
+                                                                                  "children": []
+                                                                                }
+                                                                              ]
+                                                                            }
+                                                                          ]
+                                                                        },
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "MulExpr'",
+                                                                          "children": []
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "AddExpr'",
+                                                                      "children": []
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            },
+                                                            {
+                                                              "type": "NonTerminal",
+                                                              "kind": "RelationExpr'",
+                                                              "children": []
+                                                            }
+                                                          ]
+                                                        },
+                                                        {
+                                                          "type": "NonTerminal",
+                                                          "kind": "EqualityExpr'",
+                                                          "children": [
+                                                            {
+                                                              "kind": "Terminal",
+                                                              "token": {
+                                                                "kind": "OP2",
+                                                                "lexeme": "!="
+                                                              }
+                                                            },
+                                                            {
+                                                              "type": "NonTerminal",
+                                                              "kind": "RelationExpr",
+                                                              "children": [
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "AddExpr",
+                                                                  "children": [
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "MulExpr",
+                                                                      "children": [
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "UnaryExpr",
+                                                                          "children": [
+                                                                            {
+                                                                              "type": "NonTerminal",
+                                                                              "kind": "PowerExpr",
+                                                                              "children": [
+                                                                                {
+                                                                                  "type": "NonTerminal",
+                                                                                  "kind": "PrimaryExpr",
+                                                                                  "children": [
+                                                                                    {
+                                                                                      "kind": "Terminal",
+                                                                                      "token": {
+                                                                                        "kind": "ID",
+                                                                                        "lexeme": "y"
+                                                                                      }
+                                                                                    }
+                                                                                  ]
+                                                                                },
+                                                                                {
+                                                                                  "type": "NonTerminal",
+                                                                                  "kind": "PowerExpr'",
+                                                                                  "children": []
+                                                                                }
+                                                                              ]
+                                                                            }
+                                                                          ]
+                                                                        },
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "MulExpr'",
+                                                                          "children": []
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "AddExpr'",
+                                                                      "children": []
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "RelationExpr'",
+                                                                  "children": []
+                                                                }
+                                                              ]
+                                                            },
+                                                            {
+                                                              "type": "NonTerminal",
+                                                              "kind": "EqualityExpr'",
+                                                              "children": []
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "kind": "Terminal",
+                                              "token": {
+                                                "kind": "SEP",
+                                                "lexeme": ")"
+                                              }
+                                            },
+                                            {
+                                              "type": "NonTerminal",
+                                              "kind": "Block",
+                                              "children": [
+                                                {
+                                                  "kind": "Terminal",
+                                                  "token": {
+                                                    "kind": "SEP",
+                                                    "lexeme": "{"
+                                                  }
+                                                },
+                                                {
+                                                  "type": "NonTerminal",
+                                                  "kind": "StmtList",
+                                                  "children": [
+                                                    {
+                                                      "type": "NonTerminal",
+                                                      "kind": "Stmt",
+                                                      "children": [
+                                                        {
+                                                          "type": "NonTerminal",
+                                                          "kind": "FuncCallStmt",
+                                                          "children": [
+                                                            {
+                                                              "type": "NonTerminal",
+                                                              "kind": "FuncCall",
+                                                              "children": [
+                                                                {
+                                                                  "kind": "Terminal",
+                                                                  "token": {
+                                                                    "kind": "KEY",
+                                                                    "lexeme": "print"
+                                                                  }
+                                                                },
+                                                                {
+                                                                  "kind": "Terminal",
+                                                                  "token": {
+                                                                    "kind": "SEP",
+                                                                    "lexeme": "("
+                                                                  }
+                                                                },
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "Expr",
+                                                                  "children": [
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "EqualityExpr",
+                                                                      "children": [
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "RelationExpr",
+                                                                          "children": [
+                                                                            {
+                                                                              "type": "NonTerminal",
+                                                                              "kind": "AddExpr",
+                                                                              "children": [
+                                                                                {
+                                                                                  "type": "NonTerminal",
+                                                                                  "kind": "MulExpr",
+                                                                                  "children": [
+                                                                                    {
+                                                                                      "type": "NonTerminal",
+                                                                                      "kind": "UnaryExpr",
+                                                                                      "children": [
+                                                                                        {
+                                                                                          "type": "NonTerminal",
+                                                                                          "kind": "PowerExpr",
+                                                                                          "children": [
+                                                                                            {
+                                                                                              "type": "NonTerminal",
+                                                                                              "kind": "PrimaryExpr",
+                                                                                              "children": [
+                                                                                                {
+                                                                                                  "kind": "Terminal",
+                                                                                                  "token": {
+                                                                                                    "kind": "ID",
+                                                                                                    "lexeme": "x"
+                                                                                                  }
+                                                                                                }
+                                                                                              ]
+                                                                                            },
+                                                                                            {
+                                                                                              "type": "NonTerminal",
+                                                                                              "kind": "PowerExpr'",
+                                                                                              "children": []
+                                                                                            }
+                                                                                          ]
+                                                                                        }
+                                                                                      ]
+                                                                                    },
+                                                                                    {
+                                                                                      "type": "NonTerminal",
+                                                                                      "kind": "MulExpr'",
+                                                                                      "children": []
+                                                                                    }
+                                                                                  ]
+                                                                                },
+                                                                                {
+                                                                                  "type": "NonTerminal",
+                                                                                  "kind": "AddExpr'",
+                                                                                  "children": []
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            {
+                                                                              "type": "NonTerminal",
+                                                                              "kind": "RelationExpr'",
+                                                                              "children": []
+                                                                            }
+                                                                          ]
+                                                                        },
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "EqualityExpr'",
+                                                                          "children": []
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "kind": "Terminal",
+                                                                  "token": {
+                                                                    "kind": "SEP",
+                                                                    "lexeme": ")"
+                                                                  }
+                                                                }
+                                                              ]
+                                                            },
+                                                            {
+                                                              "kind": "Terminal",
+                                                              "token": {
+                                                                "kind": "SEP",
+                                                                "lexeme": ";"
+                                                              }
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "type": "NonTerminal",
+                                                      "kind": "StmtList",
+                                                      "children": []
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "kind": "Terminal",
+                                                  "token": {
+                                                    "kind": "SEP",
+                                                    "lexeme": "}"
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "type": "NonTerminal",
+                                              "kind": "ElsePart",
+                                              "children": [
+                                                {
+                                                  "kind": "Terminal",
+                                                  "token": {
+                                                    "kind": "KEY",
+                                                    "lexeme": "else"
+                                                  }
+                                                },
+                                                {
+                                                  "type": "NonTerminal",
+                                                  "kind": "Block",
+                                                  "children": [
+                                                    {
+                                                      "kind": "Terminal",
+                                                      "token": {
+                                                        "kind": "SEP",
+                                                        "lexeme": "{"
+                                                      }
+                                                    },
+                                                    {
+                                                      "type": "NonTerminal",
+                                                      "kind": "StmtList",
+                                                      "children": [
+                                                        {
+                                                          "type": "NonTerminal",
+                                                          "kind": "Stmt",
+                                                          "children": [
+                                                            {
+                                                              "type": "NonTerminal",
+                                                              "kind": "FuncCallStmt",
+                                                              "children": [
+                                                                {
+                                                                  "type": "NonTerminal",
+                                                                  "kind": "FuncCall",
+                                                                  "children": [
+                                                                    {
+                                                                      "kind": "Terminal",
+                                                                      "token": {
+                                                                        "kind": "KEY",
+                                                                        "lexeme": "print"
+                                                                      }
+                                                                    },
+                                                                    {
+                                                                      "kind": "Terminal",
+                                                                      "token": {
+                                                                        "kind": "SEP",
+                                                                        "lexeme": "("
+                                                                      }
+                                                                    },
+                                                                    {
+                                                                      "type": "NonTerminal",
+                                                                      "kind": "Expr",
+                                                                      "children": [
+                                                                        {
+                                                                          "type": "NonTerminal",
+                                                                          "kind": "EqualityExpr",
+                                                                          "children": [
+                                                                            {
+                                                                              "type": "NonTerminal",
+                                                                              "kind": "RelationExpr",
+                                                                              "children": [
+                                                                                {
+                                                                                  "type": "NonTerminal",
+                                                                                  "kind": "AddExpr",
+                                                                                  "children": [
+                                                                                    {
+                                                                                      "type": "NonTerminal",
+                                                                                      "kind": "MulExpr",
+                                                                                      "children": [
+                                                                                        {
+                                                                                          "type": "NonTerminal",
+                                                                                          "kind": "UnaryExpr",
+                                                                                          "children": [
+                                                                                            {
+                                                                                              "type": "NonTerminal",
+                                                                                              "kind": "PowerExpr",
+                                                                                              "children": [
+                                                                                                {
+                                                                                                  "type": "NonTerminal",
+                                                                                                  "kind": "PrimaryExpr",
+                                                                                                  "children": [
+                                                                                                    {
+                                                                                                      "kind": "Terminal",
+                                                                                                      "token": {
+                                                                                                        "kind": "ID",
+                                                                                                        "lexeme": "y"
+                                                                                                      }
+                                                                                                    }
+                                                                                                  ]
+                                                                                                },
+                                                                                                {
+                                                                                                  "type": "NonTerminal",
+                                                                                                  "kind": "PowerExpr'",
+                                                                                                  "children": []
+                                                                                                }
+                                                                                              ]
+                                                                                            }
+                                                                                          ]
+                                                                                        },
+                                                                                        {
+                                                                                          "type": "NonTerminal",
+                                                                                          "kind": "MulExpr'",
+                                                                                          "children": []
+                                                                                        }
+                                                                                      ]
+                                                                                    },
+                                                                                    {
+                                                                                      "type": "NonTerminal",
+                                                                                      "kind": "AddExpr'",
+                                                                                      "children": []
+                                                                                    }
+                                                                                  ]
+                                                                                },
+                                                                                {
+                                                                                  "type": "NonTerminal",
+                                                                                  "kind": "RelationExpr'",
+                                                                                  "children": []
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            {
+                                                                              "type": "NonTerminal",
+                                                                              "kind": "EqualityExpr'",
+                                                                              "children": []
+                                                                            }
+                                                                          ]
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    {
+                                                                      "kind": "Terminal",
+                                                                      "token": {
+                                                                        "kind": "SEP",
+                                                                        "lexeme": ")"
+                                                                      }
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "kind": "Terminal",
+                                                                  "token": {
+                                                                    "kind": "SEP",
+                                                                    "lexeme": ";"
+                                                                  }
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        },
+                                                        {
+                                                          "type": "NonTerminal",
+                                                          "kind": "StmtList",
+                                                          "children": []
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "kind": "Terminal",
+                                                      "token": {
+                                                        "kind": "SEP",
+                                                        "lexeme": "}"
+                                                      }
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "NonTerminal",
+                                      "kind": "StmtList",
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -348,6 +348,7 @@ LEXER_NFA:
 # Minimize
 
 ```json
+```
 {
     "states": [
         "START",
@@ -627,7 +628,7 @@ LEXER_NFA:
         {
             "from": "IF:I",
             "to": "ID",
-            "pattern": "[A-Za-hj-z0-9_]"
+            "pattern": "[A-Za-eg-z0-9_]"
         },
         {
             "from": "IF:I",
