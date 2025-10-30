@@ -355,21 +355,11 @@ LEXER_NFA:
         "NUM_INT",
         "NUM_MIDDLE",
         "NUM_FLOAT",
-        "OP:POW",
-        "OP:POW2",
+        "OP1",
+        "OP2",
+        "REPEAT",
         "ASSIGN",
-        "OP:EQ",
-        "OP:LESS",
-        "OP:LESSEQ",
-        "OP:DIV",
-        "OP:GREATER",
-        "OP:GREATEREQ",
-        "OP:MINUS",
-        "OP:ADD",
-        "OP:MUL",
         "WS",
-        "OP:NOT",
-        "OP:NOTEQ",
         "SEP",
         "COMMENT",
         "KEY"
@@ -379,21 +369,11 @@ LEXER_NFA:
         "ID",
         "NUM_INT",
         "NUM_FLOAT",
-        "OP:POW",
-        "OP:POW2",
+        "OP1",
+        "OP2",
+        "REPEAT",
         "ASSIGN",
-        "OP:EQ",
-        "OP:LESS",
-        "OP:LESSEQ",
-        "OP:DIV",
-        "OP:GREATER",
-        "OP:GREATEREQ",
-        "OP:MINUS",
-        "OP:ADD",
-        "OP:MUL",
         "WS",
-        "OP:NOT",
-        "OP:NOTEQ",
         "SEP",
         "COMMENT",
         "KEY"
@@ -436,12 +416,12 @@ LEXER_NFA:
         },
         {
             "from": "START",
-            "to": "OP:POW",
+            "to": "OP1",
             "pattern": "[\\^]"
         },
         {
-            "from": "OP:POW",
-            "to": "OP:POW2",
+            "from": "OP1",
+            "to": "REPEAT",
             "pattern": "[\\^]"
         },
         {
@@ -451,52 +431,47 @@ LEXER_NFA:
         },
         {
             "from": "ASSIGN",
-            "to": "OP:EQ",
+            "to": "OP2",
             "pattern": "[=]"
         },
         {
             "from": "START",
-            "to": "OP:LESS",
+            "to": "OP1",
             "pattern": "[<]"
         },
         {
-            "from": "START",
-            "to": "OP:LESS",
-            "pattern": "[<]"
-        },
-        {
-            "from": "OP:LESS",
-            "to": "OP:LESSEQ",
+            "from": "OP1",
+            "to": "OP2",
             "pattern": "[=]"
         },
         {
             "from": "START",
-            "to": "OP:DIV",
+            "to": "OP1",
             "pattern": "[/]"
         },
         {
             "from": "START",
-            "to": "OP:GREATER",
+            "to": "OP1",
             "pattern": "[>]"
         },
         {
-            "from": "OP:GREATER",
-            "to": "OP:GREATEREQ",
+            "from": "OP1",
+            "to": "OP2",
             "pattern": "[=]"
         },
         {
             "from": "START",
-            "to": "OP:MINUS",
+            "to": "OP1",
             "pattern": "[-]"
         },
         {
             "from": "START",
-            "to": "OP:ADD",
+            "to": "OP1",
             "pattern": "[+]"
         },
         {
             "from": "START",
-            "to": "OP:MUL",
+            "to": "OP1",
             "pattern": "[*]"
         },
         {
@@ -511,12 +486,12 @@ LEXER_NFA:
         },
         {
             "from": "START",
-            "to": "OP:NOT",
+            "to": "OP1",
             "pattern": "[!]"
         },
         {
-            "from": "OP:NOT",
-            "to": "OP:NOTEQ",
+            "from": "OP1",
+            "to": "OP2",
             "pattern": "[=]"
         },
         {
@@ -525,7 +500,7 @@ LEXER_NFA:
             "pattern": "[(){};,]"
         },
         {
-            "from": "OP:DIV",
+            "from": "OP1",
             "to": "COMMENT",
             "pattern": "[/]"
         },
@@ -697,3 +672,30 @@ LEXER_NFA:
     ]
 }
 ```
+
+# CFG
+
+- Program -> StmtList
+- StmtList -> Stmt StmtList | ε
+- Stmt -> DeclStmt | AssignStmt | Block | FuncCallStmt | IfStmt | RepeatStmt
+- DeclStmt -> KEY(let) ID SEP(;)
+- AssignStmt -> ID ASSIGN Expr SEP(;)
+- Block -> SEP({) StmtList SEP(})
+- FuncCallStmt -> FuncCall SEP(;)
+- FuncCall -> KEY(print) SEP(() Expr SEP()) | KEY(read) SEP(() ID SEP())
+- IfStmt -> KEY(if) SEP(() Expr SEP()) Block ElsePart
+- ElsePart -> KEY(else) Block | ε
+- RepeatStmt -> Block REPEAT Expr SEP(;)
+- Expr -> EqualityExpr
+- EqualityExpr -> RelationExpr EqualityExpr'
+- EqualityExpr' -> OP2(==) RelationExpr EqualityExpr' | OP2(!=) RelationExpr EqualityExpr' | ε
+- RelationExpr -> AddExpr RelationExpr'
+- RelationExpr' -> OP2(>=) AddExpr RelationExpr' | OP2(<=) AddExpr RelationExpr' | OP1(>) AddExpr RelationExpr' | OP1(<) AddExpr RelationExpr' | ε
+- AddExpr -> MulExpr AddExpr'
+- AddExpr' -> OP1(+) MulExpr AddExpr' | OP1(-) MulExpr AddExpr' | ε
+- MulExpr -> UnaryExpr MulExpr'
+- MulExpr' -> OP1(*) UnaryExpr MulExpr' | OP1(/) UnaryExpr MulExpr' | ε
+- UnaryExpr -> OP1(+) UnaryExpr | OP1(-) UnaryExpr | OP1(!) UnaryExpr | PowerExpr
+- PowerExpr -> PrimaryExpr PowerExpr'
+- PowerExpr' -> OP1(^) PowerExpr | ε
+- PrimaryExpr -> SEP(() Expr SEP()) | NUM_INT | NUM_FLOAT | ID
