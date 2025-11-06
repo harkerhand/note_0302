@@ -42,3 +42,8 @@
 
 # VSCode settings
 .vscode/
+
+
+# obsidian
+.obsidian/
+.trash/
