@@ -4,29 +4,6 @@
 using namespace cv;
 using namespace std;
 
-// 单通道中心化
-void fftShiftSingle(Mat &mag)
-{
-    int cx = mag.cols / 2;
-    int cy = mag.rows / 2;
-
-    Mat q0(mag, Rect(0, 0, cx, cy));   // 左上
-    Mat q1(mag, Rect(cx, 0, cx, cy));  // 右上
-    Mat q2(mag, Rect(0, cy, cx, cy));  // 左下
-    Mat q3(mag, Rect(cx, cy, cx, cy)); // 右下
-
-    Mat tmp;
-    // 交换左上 <-> 右下
-    q0.copyTo(tmp);
-    q3.copyTo(q0);
-    tmp.copyTo(q3);
-
-    // 交换右上 <-> 左下
-    q1.copyTo(tmp);
-    q2.copyTo(q1);
-    tmp.copyTo(q2);
-}
-
 // 频谱可视化
 Mat spectrumToImage(const Mat &complexImg)
 {
@@ -42,7 +19,7 @@ Mat spectrumToImage(const Mat &complexImg)
     return mag8U;
 }
 
-// 构建竖直陷波滤波器，直接作用于中心化频谱
+// 构建竖直陷波滤波器
 // size: 频谱大小
 // bandHalfWidth: 阻带半宽度（像素）
 // skipCenterRadius: 中心跳过半径（像素）
@@ -58,16 +35,30 @@ cv::Mat createNotchFilterComplex(cv::Size size, int bandHalfWidth, int skipCente
     {
         for (int x = 0; x < size.width; ++x)
         {
-            // 阻带竖直带，中心在 cx
             if (std::abs(x - cx) <= bandHalfWidth && std::abs(y - cy) >= skipCenterRadius)
             {
-                filter.at<cv::Vec2f>(y, x)[0] = 0.0f; // 实部
-                filter.at<cv::Vec2f>(y, x)[1] = 0.0f; // 虚部
+                filter.at<cv::Vec2f>(y, x)[0] = 0.0f;
+                filter.at<cv::Vec2f>(y, x)[1] = 0.0f;
             }
         }
     }
 
     return filter;
+}
+
+// 空间域中心化: 原图乘 (-1)^(x+y)
+void centerShift(Mat &img)
+{
+    Mat maskY = Mat::ones(img.rows, 1, CV_32F);
+    Mat maskX = Mat::ones(1, img.cols, CV_32F);
+
+    for (int i = 0; i < img.rows; i++)
+        maskY.at<float>(i, 0) = (i % 2 == 0) ? 1 : -1;
+    for (int j = 0; j < img.cols; j++)
+        maskX.at<float>(0, j) = (j % 2 == 0) ? 1 : -1;
+
+    Mat mask = maskY * maskX;
+    multiply(img, mask, img);
 }
 
 int main()
@@ -89,27 +80,24 @@ int main()
     int n = getOptimalDFTSize(src.cols);
     copyMakeBorder(src, padded, 0, m - src.rows, 0, n - src.cols, BORDER_CONSTANT, Scalar::all(0));
 
+    // 空间域中心化
+    centerShift(padded);
+
     // 构建复数矩阵
-    Mat planes[] = {Mat_<float>(padded), Mat::zeros(padded.size(), CV_32F)};
+    Mat planes[] = {padded, Mat::zeros(padded.size(), padded.type())};
     Mat complexI;
     merge(planes, 2, complexI);
 
     // DFT
     dft(complexI, complexI);
 
-    // 中心化频谱
-    split(complexI, planes);
-    fftShiftSingle(planes[0]);
-    fftShiftSingle(planes[1]);
-    merge(planes, 2, complexI);
-
     // 频谱
     Mat spectrum = spectrumToImage(complexI);
     imwrite("fft_result.png", spectrum);
 
     // 构建陷波滤波器
-    int bandHalfWidth = 2;    // 阻带半宽度
-    int skipCenterRadius = 6; // 中心跳过半径
+    int bandHalfWidth = 2;     // 阻带半宽度
+    int skipCenterRadius = 10; // 中心跳过半径
     Mat notchFilter = createNotchFilterComplex(complexI.size(), bandHalfWidth, skipCenterRadius);
 
     // 可视化滤波器频谱
@@ -125,15 +113,10 @@ int main()
     imwrite("fft_filtered_result.png", filteredSpectrum);
 
     // 逆 DFT
-    // 先中心化回去
-    split(filteredComplex, planes);
-    fftShiftSingle(planes[0]);
-    fftShiftSingle(planes[1]);
-    merge(planes, 2, filteredComplex);
-
     Mat invDFT;
     dft(filteredComplex, invDFT, DFT_INVERSE | DFT_REAL_OUTPUT | DFT_SCALE);
-
+    // 逆空间域中心化
+    centerShift(invDFT);
     // 裁剪到原始大小
     invDFT = invDFT(Rect(0, 0, src.cols, src.rows));
     normalize(invDFT, invDFT, 0, 255, NORM_MINMAX);
@@ -145,14 +128,12 @@ int main()
     // 提取噪声频谱
     Mat noiseSpectrum;
     mulSpectrums(complexI, inverseFilter, noiseSpectrum, 0);
-    // 逆中心化
-    split(noiseSpectrum, planes);
-    fftShiftSingle(planes[0]);
-    fftShiftSingle(planes[1]);
-    merge(planes, 2, noiseSpectrum);
     // 逆 DFT 得到噪声图像
     Mat noiseImage;
     dft(noiseSpectrum, noiseImage, DFT_INVERSE | DFT_REAL_OUTPUT | DFT_SCALE);
+    // 逆空间域中心化
+    centerShift(noiseImage);
+    // 裁剪到原始大小
     noiseImage = noiseImage(Rect(0, 0, src.cols, src.rows));
     normalize(noiseImage, noiseImage, 0, 255, NORM_MINMAX);
     noiseImage.convertTo(noiseImage, CV_8U);
