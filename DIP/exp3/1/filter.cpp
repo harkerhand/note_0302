@@ -79,6 +79,7 @@ int main()
         cout << "无法读取图像" << endl;
         return -1;
     }
+    // 原图
     imwrite("original_image.png", src);
     src.convertTo(src, CV_32F); // 转为浮点型
 
@@ -102,7 +103,7 @@ int main()
     fftShiftSingle(planes[1]);
     merge(planes, 2, complexI);
 
-    // 可视化频谱
+    // 频谱
     Mat spectrum = spectrumToImage(complexI);
     imwrite("fft_result.png", spectrum);
 
@@ -110,6 +111,10 @@ int main()
     int bandHalfWidth = 2;     // 阻带半宽度
     int skipCenterRadius = 20; // 中心跳过半径
     Mat notchFilter = createNotchFilterComplex(complexI.size(), bandHalfWidth, skipCenterRadius);
+
+    // 可视化滤波器频谱
+    Mat filterSpectrum = spectrumToImage(notchFilter);
+    imwrite("notch_filter.png", filterSpectrum);
 
     // 应用滤波器
     Mat filteredComplex;
@@ -131,9 +136,27 @@ int main()
 
     // 裁剪到原始大小
     invDFT = invDFT(Rect(0, 0, src.cols, src.rows));
+    normalize(invDFT, invDFT, 0, 255, NORM_MINMAX);
     invDFT.convertTo(invDFT, CV_8U);
     imwrite("fft_filtered_image.png", invDFT);
 
-    cout << "FFT 已完成，频谱图已保存为 fft_result.png" << endl;
+    // 构造反滤波器提取噪声
+    Mat inverseFilter = Mat::ones(notchFilter.size(), CV_32FC2) - notchFilter;
+    // 提取噪声频谱
+    Mat noiseSpectrum;
+    mulSpectrums(complexI, inverseFilter, noiseSpectrum, 0);
+    // 逆中心化
+    split(noiseSpectrum, planes);
+    fftShiftSingle(planes[0]);
+    fftShiftSingle(planes[1]);
+    merge(planes, 2, noiseSpectrum);
+    // 逆 DFT 得到噪声图像
+    Mat noiseImage;
+    dft(noiseSpectrum, noiseImage, DFT_INVERSE | DFT_REAL_OUTPUT | DFT_SCALE);
+    noiseImage = noiseImage(Rect(0, 0, src.cols, src.rows));
+    normalize(noiseImage, noiseImage, 0, 255, NORM_MINMAX);
+    noiseImage.convertTo(noiseImage, CV_8U);
+    imwrite("extracted_noise.png", noiseImage);
+
     return 0;
 }
