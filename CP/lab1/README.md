@@ -348,7 +348,6 @@ LEXER_NFA:
 # Minimize
 
 ```json
-```
 {
     "states": [
         "START",
