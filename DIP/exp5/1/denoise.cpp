@@ -165,7 +165,7 @@ int main()
     Mat double_img;
     noisy_img.convertTo(double_img, CV_64F, 1.0 / 255.0);
     const int j = 4;
-    const string wavename = "bior3.7";
+    const string wavename = "db4";
     const double threshold = 0.08;
     Mat denoised_img = wavelet_denoising(double_img, j, wavename, threshold);
     denoised_img.convertTo(denoised_img, CV_8U, 255.0);

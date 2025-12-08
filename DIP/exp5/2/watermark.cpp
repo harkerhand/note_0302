@@ -41,8 +41,15 @@ int main()
     Mat invisibleOutput;
     addInvisibleWatermark(original, watermark, invisibleOutput);
     imwrite("invisible_watermarked_xray.png", invisibleOutput);
+    Mat noisyInvisible;
+    Mat noise = Mat::zeros(invisibleOutput.size(), invisibleOutput.type());
+    randn(noise, 0, 5);
+    add(invisibleOutput, noise, noisyInvisible);
     Mat extractedWatermark;
-    extractInvisibleWatermark(invisibleOutput, extractedWatermark);
-    imwrite("extracted_watermark.png", extractedWatermark);
+    extractInvisibleWatermark(noisyInvisible, extractedWatermark);
+    imwrite("extracted_watermark_noisy.png", extractedWatermark);
+    Mat extractedWatermarkClean;
+    extractInvisibleWatermark(invisibleOutput, extractedWatermarkClean);
+    imwrite("extracted_watermark_clean.png", extractedWatermarkClean);
     return 0;
 }
