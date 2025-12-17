@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 
     cv::Mat transed = PowerLawTrans(src, gamma);
 
-    cv::imwrite("./transed_" + image_path + ".png", transed);
+    cv::imwrite("./transed" + std::to_string(static_cast<int>(gamma * 10)) + "_" + image_path + ".png", transed);
 
     return 0;
 }

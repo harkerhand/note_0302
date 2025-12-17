@@ -45,7 +45,7 @@ else
 	CFLAGS=""
 fi
 
-g++ "$CPP_PATH" -o "$OUT_PATH" $CFLAGS
+g++ -std=c++23 "$CPP_PATH" -o "$OUT_PATH" $CFLAGS
 
 echo "Running: $OUT_PATH ${PROGRAM_ARGS[*]}"
 "$OUT_PATH" "${PROGRAM_ARGS[@]}"

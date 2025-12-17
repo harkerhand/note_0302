@@ -1,0 +1,1920 @@
+Ll1Table {
+    terminals: [
+        Token {
+            kind: "KEY",
+            lexeme: "let",
+        },
+        Token {
+            kind: "ID",
+            lexeme: "",
+        },
+        Token {
+            kind: "SEP",
+            lexeme: "{",
+        },
+        Token {
+            kind: "KEY",
+            lexeme: "print",
+        },
+        Token {
+            kind: "KEY",
+            lexeme: "read",
+        },
+        Token {
+            kind: "KEY",
+            lexeme: "if",
+        },
+        Token {
+            kind: "SEP",
+            lexeme: "(",
+        },
+        Token {
+            kind: "NUM_INT",
+            lexeme: "",
+        },
+        Token {
+            kind: "NUM_FLOAT",
+            lexeme: "",
+        },
+        Token {
+            kind: "OP1",
+            lexeme: "+",
+        },
+        Token {
+            kind: "OP1",
+            lexeme: "-",
+        },
+        Token {
+            kind: "OP1",
+            lexeme: "!",
+        },
+        Token {
+            kind: "OP1",
+            lexeme: "*",
+        },
+        Token {
+            kind: "OP1",
+            lexeme: "/",
+        },
+        Token {
+            kind: "OP1",
+            lexeme: "^",
+        },
+        Token {
+            kind: "OP2",
+            lexeme: "==",
+        },
+        Token {
+            kind: "OP2",
+            lexeme: "!=",
+        },
+        Token {
+            kind: "OP1",
+            lexeme: "<",
+        },
+        Token {
+            kind: "OP2",
+            lexeme: "<=",
+        },
+        Token {
+            kind: "OP1",
+            lexeme: ">",
+        },
+        Token {
+            kind: "OP2",
+            lexeme: ">=",
+        },
+        Token {
+            kind: "SEP",
+            lexeme: "}",
+        },
+        Token {
+            kind: "KEY",
+            lexeme: "else",
+        },
+        Token {
+            kind: "REPEAT",
+            lexeme: "",
+        },
+        Token {
+            kind: "SEP",
+            lexeme: ";",
+        },
+        Token {
+            kind: "ASSIGN",
+            lexeme: "",
+        },
+        Token {
+            kind: "SEP",
+            lexeme: ")",
+        },
+        Token {
+            kind: "#",
+            lexeme: "",
+        },
+        Token {
+            kind: "#",
+            lexeme: "",
+        },
+        Token {
+            kind: "ε",
+            lexeme: "",
+        },
+    ],
+    non_terminals: [
+        Token {
+            kind: "Program",
+            lexeme: "",
+        },
+        Token {
+            kind: "StmtList",
+            lexeme: "",
+        },
+        Token {
+            kind: "Stmt",
+            lexeme: "",
+        },
+        Token {
+            kind: "DeclStmt",
+            lexeme: "",
+        },
+        Token {
+            kind: "AssignStmt",
+            lexeme: "",
+        },
+        Token {
+            kind: "BlockMaybeRepeat",
+            lexeme: "",
+        },
+        Token {
+            kind: "RepeatTail",
+            lexeme: "",
+        },
+        Token {
+            kind: "Block",
+            lexeme: "",
+        },
+        Token {
+            kind: "FuncCallStmt",
+            lexeme: "",
+        },
+        Token {
+            kind: "FuncCall",
+            lexeme: "",
+        },
+        Token {
+            kind: "IfStmt",
+            lexeme: "",
+        },
+        Token {
+            kind: "ElsePart",
+            lexeme: "",
+        },
+        Token {
+            kind: "Expr",
+            lexeme: "",
+        },
+        Token {
+            kind: "EqualityExpr",
+            lexeme: "",
+        },
+        Token {
+            kind: "EqualityExpr'",
+            lexeme: "",
+        },
+        Token {
+            kind: "RelationExpr",
+            lexeme: "",
+        },
+        Token {
+            kind: "RelationExpr'",
+            lexeme: "",
+        },
+        Token {
+            kind: "AddExpr",
+            lexeme: "",
+        },
+        Token {
+            kind: "AddExpr'",
+            lexeme: "",
+        },
+        Token {
+            kind: "MulExpr",
+            lexeme: "",
+        },
+        Token {
+            kind: "MulExpr'",
+            lexeme: "",
+        },
+        Token {
+            kind: "UnaryExpr",
+            lexeme: "",
+        },
+        Token {
+            kind: "PowerExpr",
+            lexeme: "",
+        },
+        Token {
+            kind: "PowerExpr'",
+            lexeme: "",
+        },
+        Token {
+            kind: "PrimaryExpr",
+            lexeme: "",
+        },
+    ],
+    table: {
+        Token {
+            kind: "FuncCall",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "KEY",
+                lexeme: "print",
+            }: [
+                Token {
+                    kind: "KEY",
+                    lexeme: "print",
+                },
+                Token {
+                    kind: "SEP",
+                    lexeme: "(",
+                },
+                Token {
+                    kind: "Expr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "SEP",
+                    lexeme: ")",
+                },
+            ],
+            Token {
+                kind: "KEY",
+                lexeme: "read",
+            }: [
+                Token {
+                    kind: "KEY",
+                    lexeme: "read",
+                },
+                Token {
+                    kind: "SEP",
+                    lexeme: "(",
+                },
+                Token {
+                    kind: "ID",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "SEP",
+                    lexeme: ")",
+                },
+            ],
+        },
+        Token {
+            kind: "StmtList",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "SEP",
+                lexeme: "}",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "KEY",
+                lexeme: "read",
+            }: [
+                Token {
+                    kind: "Stmt",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "StmtList",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "ID",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "Stmt",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "StmtList",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: ";",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "KEY",
+                lexeme: "if",
+            }: [
+                Token {
+                    kind: "Stmt",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "StmtList",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "KEY",
+                lexeme: "print",
+            }: [
+                Token {
+                    kind: "Stmt",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "StmtList",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "#",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: "{",
+            }: [
+                Token {
+                    kind: "Stmt",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "StmtList",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "KEY",
+                lexeme: "let",
+            }: [
+                Token {
+                    kind: "Stmt",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "StmtList",
+                    lexeme: "",
+                },
+            ],
+        },
+        Token {
+            kind: "AddExpr'",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "OP1",
+                lexeme: ">",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: ";",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "+",
+            }: [
+                Token {
+                    kind: "OP1",
+                    lexeme: "+",
+                },
+                Token {
+                    kind: "MulExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "AddExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "<",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP2",
+                lexeme: "!=",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "-",
+            }: [
+                Token {
+                    kind: "OP1",
+                    lexeme: "-",
+                },
+                Token {
+                    kind: "MulExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "AddExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP2",
+                lexeme: "==",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP2",
+                lexeme: ">=",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: ")",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP2",
+                lexeme: "<=",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+        },
+        Token {
+            kind: "RepeatTail",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "SEP",
+                lexeme: "}",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "#",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "REPEAT",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "REPEAT",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "Expr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "SEP",
+                    lexeme: ";",
+                },
+            ],
+        },
+        Token {
+            kind: "Stmt",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "KEY",
+                lexeme: "print",
+            }: [
+                Token {
+                    kind: "FuncCallStmt",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "KEY",
+                lexeme: "read",
+            }: [
+                Token {
+                    kind: "FuncCallStmt",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "KEY",
+                lexeme: "let",
+            }: [
+                Token {
+                    kind: "DeclStmt",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: "{",
+            }: [
+                Token {
+                    kind: "BlockMaybeRepeat",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "ID",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "AssignStmt",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "KEY",
+                lexeme: "if",
+            }: [
+                Token {
+                    kind: "IfStmt",
+                    lexeme: "",
+                },
+            ],
+        },
+        Token {
+            kind: "BlockMaybeRepeat",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "SEP",
+                lexeme: "{",
+            }: [
+                Token {
+                    kind: "Block",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "RepeatTail",
+                    lexeme: "",
+                },
+            ],
+        },
+        Token {
+            kind: "DeclStmt",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "KEY",
+                lexeme: "let",
+            }: [
+                Token {
+                    kind: "KEY",
+                    lexeme: "let",
+                },
+                Token {
+                    kind: "ID",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "SEP",
+                    lexeme: ";",
+                },
+            ],
+        },
+        Token {
+            kind: "Expr",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "ID",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "EqualityExpr",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "NUM_FLOAT",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "EqualityExpr",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "!",
+            }: [
+                Token {
+                    kind: "EqualityExpr",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "-",
+            }: [
+                Token {
+                    kind: "EqualityExpr",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: "(",
+            }: [
+                Token {
+                    kind: "EqualityExpr",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "+",
+            }: [
+                Token {
+                    kind: "EqualityExpr",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "NUM_INT",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "EqualityExpr",
+                    lexeme: "",
+                },
+            ],
+        },
+        Token {
+            kind: "FuncCallStmt",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "KEY",
+                lexeme: "read",
+            }: [
+                Token {
+                    kind: "FuncCall",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "SEP",
+                    lexeme: ";",
+                },
+            ],
+            Token {
+                kind: "KEY",
+                lexeme: "print",
+            }: [
+                Token {
+                    kind: "FuncCall",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "SEP",
+                    lexeme: ";",
+                },
+            ],
+        },
+        Token {
+            kind: "MulExpr'",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "OP1",
+                lexeme: "-",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: ">",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: ")",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: ";",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "+",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP2",
+                lexeme: ">=",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "*",
+            }: [
+                Token {
+                    kind: "OP1",
+                    lexeme: "*",
+                },
+                Token {
+                    kind: "UnaryExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "MulExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP2",
+                lexeme: "<=",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "<",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "/",
+            }: [
+                Token {
+                    kind: "OP1",
+                    lexeme: "/",
+                },
+                Token {
+                    kind: "UnaryExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "MulExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP2",
+                lexeme: "!=",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP2",
+                lexeme: "==",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+        },
+        Token {
+            kind: "ElsePart",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "SEP",
+                lexeme: ";",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "KEY",
+                lexeme: "else",
+            }: [
+                Token {
+                    kind: "KEY",
+                    lexeme: "else",
+                },
+                Token {
+                    kind: "Block",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "#",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: "}",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+        },
+        Token {
+            kind: "MulExpr",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "ID",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "UnaryExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "MulExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "NUM_FLOAT",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "UnaryExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "MulExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "+",
+            }: [
+                Token {
+                    kind: "UnaryExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "MulExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "-",
+            }: [
+                Token {
+                    kind: "UnaryExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "MulExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: "(",
+            }: [
+                Token {
+                    kind: "UnaryExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "MulExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "NUM_INT",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "UnaryExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "MulExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "!",
+            }: [
+                Token {
+                    kind: "UnaryExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "MulExpr'",
+                    lexeme: "",
+                },
+            ],
+        },
+        Token {
+            kind: "PrimaryExpr",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "NUM_INT",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "NUM_INT",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "NUM_FLOAT",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "NUM_FLOAT",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "ID",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "ID",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: "(",
+            }: [
+                Token {
+                    kind: "SEP",
+                    lexeme: "(",
+                },
+                Token {
+                    kind: "Expr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "SEP",
+                    lexeme: ")",
+                },
+            ],
+        },
+        Token {
+            kind: "Block",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "SEP",
+                lexeme: "{",
+            }: [
+                Token {
+                    kind: "SEP",
+                    lexeme: "{",
+                },
+                Token {
+                    kind: "StmtList",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "SEP",
+                    lexeme: "}",
+                },
+            ],
+        },
+        Token {
+            kind: "PowerExpr'",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "OP1",
+                lexeme: "<",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: ">",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "*",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP2",
+                lexeme: "!=",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP2",
+                lexeme: ">=",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "+",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "/",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: ")",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: ";",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP2",
+                lexeme: "==",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "^",
+            }: [
+                Token {
+                    kind: "OP1",
+                    lexeme: "^",
+                },
+                Token {
+                    kind: "PowerExpr",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "-",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP2",
+                lexeme: "<=",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+        },
+        Token {
+            kind: "AssignStmt",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "ID",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "ID",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "ASSIGN",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "Expr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "SEP",
+                    lexeme: ";",
+                },
+            ],
+        },
+        Token {
+            kind: "Program",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "#",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "StmtList",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "KEY",
+                lexeme: "print",
+            }: [
+                Token {
+                    kind: "StmtList",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: "{",
+            }: [
+                Token {
+                    kind: "StmtList",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "ID",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "StmtList",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "KEY",
+                lexeme: "read",
+            }: [
+                Token {
+                    kind: "StmtList",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "KEY",
+                lexeme: "let",
+            }: [
+                Token {
+                    kind: "StmtList",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "KEY",
+                lexeme: "if",
+            }: [
+                Token {
+                    kind: "StmtList",
+                    lexeme: "",
+                },
+            ],
+        },
+        Token {
+            kind: "IfStmt",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "KEY",
+                lexeme: "if",
+            }: [
+                Token {
+                    kind: "KEY",
+                    lexeme: "if",
+                },
+                Token {
+                    kind: "SEP",
+                    lexeme: "(",
+                },
+                Token {
+                    kind: "Expr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "SEP",
+                    lexeme: ")",
+                },
+                Token {
+                    kind: "Block",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "ElsePart",
+                    lexeme: "",
+                },
+            ],
+        },
+        Token {
+            kind: "EqualityExpr'",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "SEP",
+                lexeme: ")",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: ";",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP2",
+                lexeme: "!=",
+            }: [
+                Token {
+                    kind: "OP2",
+                    lexeme: "!=",
+                },
+                Token {
+                    kind: "RelationExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "EqualityExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP2",
+                lexeme: "==",
+            }: [
+                Token {
+                    kind: "OP2",
+                    lexeme: "==",
+                },
+                Token {
+                    kind: "RelationExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "EqualityExpr'",
+                    lexeme: "",
+                },
+            ],
+        },
+        Token {
+            kind: "AddExpr",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "OP1",
+                lexeme: "!",
+            }: [
+                Token {
+                    kind: "MulExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "AddExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "ID",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "MulExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "AddExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "NUM_FLOAT",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "MulExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "AddExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "NUM_INT",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "MulExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "AddExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "+",
+            }: [
+                Token {
+                    kind: "MulExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "AddExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: "(",
+            }: [
+                Token {
+                    kind: "MulExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "AddExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "-",
+            }: [
+                Token {
+                    kind: "MulExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "AddExpr'",
+                    lexeme: "",
+                },
+            ],
+        },
+        Token {
+            kind: "PowerExpr",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "ID",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "PrimaryExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "PowerExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: "(",
+            }: [
+                Token {
+                    kind: "PrimaryExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "PowerExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "NUM_FLOAT",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "PrimaryExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "PowerExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "NUM_INT",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "PrimaryExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "PowerExpr'",
+                    lexeme: "",
+                },
+            ],
+        },
+        Token {
+            kind: "RelationExpr",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "NUM_INT",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "AddExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "RelationExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "NUM_FLOAT",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "AddExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "RelationExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "!",
+            }: [
+                Token {
+                    kind: "AddExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "RelationExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "ID",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "AddExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "RelationExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "+",
+            }: [
+                Token {
+                    kind: "AddExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "RelationExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: "(",
+            }: [
+                Token {
+                    kind: "AddExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "RelationExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "-",
+            }: [
+                Token {
+                    kind: "AddExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "RelationExpr'",
+                    lexeme: "",
+                },
+            ],
+        },
+        Token {
+            kind: "EqualityExpr",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "OP1",
+                lexeme: "-",
+            }: [
+                Token {
+                    kind: "RelationExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "EqualityExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: "(",
+            }: [
+                Token {
+                    kind: "RelationExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "EqualityExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "NUM_FLOAT",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "RelationExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "EqualityExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "!",
+            }: [
+                Token {
+                    kind: "RelationExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "EqualityExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "ID",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "RelationExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "EqualityExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "NUM_INT",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "RelationExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "EqualityExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "+",
+            }: [
+                Token {
+                    kind: "RelationExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "EqualityExpr'",
+                    lexeme: "",
+                },
+            ],
+        },
+        Token {
+            kind: "RelationExpr'",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "OP1",
+                lexeme: "<",
+            }: [
+                Token {
+                    kind: "OP1",
+                    lexeme: "<",
+                },
+                Token {
+                    kind: "AddExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "RelationExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: ">",
+            }: [
+                Token {
+                    kind: "OP1",
+                    lexeme: ">",
+                },
+                Token {
+                    kind: "AddExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "RelationExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP2",
+                lexeme: "<=",
+            }: [
+                Token {
+                    kind: "OP2",
+                    lexeme: "<=",
+                },
+                Token {
+                    kind: "AddExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "RelationExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP2",
+                lexeme: "==",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP2",
+                lexeme: ">=",
+            }: [
+                Token {
+                    kind: "OP2",
+                    lexeme: ">=",
+                },
+                Token {
+                    kind: "AddExpr",
+                    lexeme: "",
+                },
+                Token {
+                    kind: "RelationExpr'",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: ";",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP2",
+                lexeme: "!=",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: ")",
+            }: [
+                Token {
+                    kind: "ε",
+                    lexeme: "",
+                },
+            ],
+        },
+        Token {
+            kind: "UnaryExpr",
+            lexeme: "",
+        }: {
+            Token {
+                kind: "ID",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "PowerExpr",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "+",
+            }: [
+                Token {
+                    kind: "OP1",
+                    lexeme: "+",
+                },
+                Token {
+                    kind: "UnaryExpr",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "-",
+            }: [
+                Token {
+                    kind: "OP1",
+                    lexeme: "-",
+                },
+                Token {
+                    kind: "UnaryExpr",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "SEP",
+                lexeme: "(",
+            }: [
+                Token {
+                    kind: "PowerExpr",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "OP1",
+                lexeme: "!",
+            }: [
+                Token {
+                    kind: "OP1",
+                    lexeme: "!",
+                },
+                Token {
+                    kind: "UnaryExpr",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "NUM_FLOAT",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "PowerExpr",
+                    lexeme: "",
+                },
+            ],
+            Token {
+                kind: "NUM_INT",
+                lexeme: "",
+            }: [
+                Token {
+                    kind: "PowerExpr",
+                    lexeme: "",
+                },
+            ],
+        },
+    },
+}
