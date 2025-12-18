@@ -47,3 +47,5 @@
 # obsidian
 .obsidian/
 .trash/
+
+*.pdf
