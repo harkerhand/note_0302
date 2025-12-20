@@ -472,7 +472,6 @@ JOIN ContestProblemRelation CPR ON S.ProblemID = CPR.ProblemID AND C.ContestID =
 WHERE S.SubmitTime < C.StartTime OR S.SubmitTime > C.EndTime;
 ```
 
-------
 
 ### 数据库模式设计评价与优化
 
@@ -532,7 +531,6 @@ WHERE S.SubmitTime < C.StartTime OR S.SubmitTime > C.EndTime;
 - **Tag (标签)**
     - $TagID \to TagName$
 
-------
 
 ### 关于范式的论证
 
@@ -556,110 +554,107 @@ WHERE S.SubmitTime < C.StartTime OR S.SubmitTime > C.EndTime;
 
 ### 索引优化后的SQL
 
-```sql
--- 1. 位置表 (BCNF 核心：独立存储地理信息)
-CREATE TABLE Location (
-    LocationID INTEGER PRIMARY KEY AUTOINCREMENT,
-    LocationIP TEXT NOT NULL,
-    Address TEXT,
-    -- 为 IP 建立唯一索引，防止重复录入同一网段
-    CONSTRAINT idx_unique_ip UNIQUE (LocationIP)
-);
+注：同时改为 MySql 风格
 
--- 2. 组织机构表 (优化：LocationID 替代 LocationIP)
+```sql
+-- 1. 位置表
+CREATE TABLE Location (
+    LocationID INT PRIMARY KEY AUTO_INCREMENT,
+    LocationIP VARCHAR(45) NOT NULL, -- 使用 VARCHAR(45) 以兼容 IPv6
+    Address VARCHAR(255),
+    UNIQUE INDEX idx_unique_ip (LocationIP)
+) ENGINE=InnoDB;
+
+-- 2. 组织机构表
 CREATE TABLE Organization (
-    OrgID INTEGER PRIMARY KEY AUTOINCREMENT,
-    Name TEXT NOT NULL,
-    ParentOrgID INTEGER,
-    LocationID INTEGER
-);
--- 优化索引：加速组织层级查询及位置关联
-CREATE INDEX idx_org_parent ON Organization(ParentOrgID);
-CREATE INDEX idx_org_location ON Organization(LocationID);
+    OrgID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(100) NOT NULL,
+    ParentOrgID INT,
+    LocationID INT,
+    INDEX idx_org_parent (ParentOrgID),
+    INDEX idx_org_location (LocationID)
+) ENGINE=InnoDB;
 
 -- 3. 用户表
 CREATE TABLE User (
-    UserID INTEGER PRIMARY KEY AUTOINCREMENT,
-    Username TEXT NOT NULL UNIQUE,
-    Password TEXT NOT NULL,
-    OrgID INTEGER
-);
--- 优化索引：加速登录验证及所属组织查询
-CREATE INDEX idx_user_org ON User(OrgID);
+    UserID INT PRIMARY KEY AUTO_INCREMENT,
+    Username VARCHAR(50) NOT NULL UNIQUE,
+    Password VARCHAR(255) NOT NULL,
+    OrgID INT,
+    INDEX idx_user_org (OrgID)
+) ENGINE=InnoDB;
 
--- 4. 登录日志表 (优化：关联 LocationID 而非 IP)
+-- 4. 登录日志表
 CREATE TABLE LoginLog (
-    LogID INTEGER PRIMARY KEY AUTOINCREMENT,
-    UserID INTEGER,
+    LogID INT PRIMARY KEY AUTO_INCREMENT,
+    UserID INT,
     LoginTime DATETIME DEFAULT CURRENT_TIMESTAMP,
-    LocationID INTEGER
-);
--- 优化索引：加速用户轨迹追踪
-CREATE INDEX idx_log_user ON LoginLog(UserID);
-CREATE INDEX idx_log_location ON LoginLog(LocationID);
+    LocationID INT,
+    INDEX idx_log_user (UserID),
+    INDEX idx_log_location (LocationID)
+) ENGINE=InnoDB;
 
 -- 5. 题目表
 CREATE TABLE Problem (
-    ProblemID INTEGER PRIMARY KEY AUTOINCREMENT,
+    ProblemID INT PRIMARY KEY AUTO_INCREMENT,
     Description TEXT,
-    TimeLimit INTEGER,
-    MemoryLimit INTEGER
-);
+    TimeLimit INT,
+    MemoryLimit INT
+) ENGINE=InnoDB;
 
 -- 6. 标签表
 CREATE TABLE Tag (
-    TagID INTEGER PRIMARY KEY AUTOINCREMENT,
-    TagName TEXT UNIQUE
-);
+    TagID INT PRIMARY KEY AUTO_INCREMENT,
+    TagName VARCHAR(50) UNIQUE
+) ENGINE=InnoDB;
 
 -- 7. 题目标签关联表
 CREATE TABLE ProblemTagRelation (
-    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    ProblemID INTEGER,
-    TagID INTEGER
-);
--- 优化索引：加速多对多标签检索
-CREATE INDEX idx_ptr_problem ON ProblemTagRelation(ProblemID);
-CREATE INDEX idx_ptr_tag ON ProblemTagRelation(TagID);
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    ProblemID INT,
+    TagID INT,
+    INDEX idx_ptr_problem (ProblemID),
+    INDEX idx_ptr_tag (TagID)
+) ENGINE=InnoDB;
 
--- 8. 提交记录表 (核心表：数据量最大)
+-- 8. 提交记录表
 CREATE TABLE Submission (
-    SubmissionID INTEGER PRIMARY KEY AUTOINCREMENT,
-    UserID INTEGER,
-    ProblemID INTEGER,
-    ContestID INTEGER,
+    SubmissionID INT PRIMARY KEY AUTO_INCREMENT,
+    UserID INT,
+    ProblemID INT,
+    ContestID INT,
     SubmitTime DATETIME DEFAULT CURRENT_TIMESTAMP,
-    Result TEXT,
-    TimeUsed INTEGER,
-    MemoryUsed INTEGER
-);
--- 优化索引：复合索引加速特定竞赛下的题目统计，以及用户个人记录查询
-CREATE INDEX idx_sub_user ON Submission(UserID);
-CREATE INDEX idx_sub_contest_problem ON Submission(ContestID, ProblemID);
-CREATE INDEX idx_sub_result ON Submission(Result); -- 加速统计 Accepted/WA 比例
+    Result VARCHAR(20),
+    TimeUsed INT,
+    MemoryUsed INT,
+    INDEX idx_sub_user (UserID),
+    INDEX idx_sub_contest_problem (ContestID, ProblemID),
+    INDEX idx_sub_result (Result)
+) ENGINE=InnoDB;
 
 -- 9. 竞赛表
 CREATE TABLE Contest (
-    ContestID INTEGER PRIMARY KEY AUTOINCREMENT,
-    ContestName TEXT,
+    ContestID INT PRIMARY KEY AUTO_INCREMENT,
+    ContestName VARCHAR(100),
     StartTime DATETIME,
     EndTime DATETIME
-);
+) ENGINE=InnoDB;
 
 -- 10. 竞赛题目关联表
 CREATE TABLE ContestProblemRelation (
-    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    ContestID INTEGER,
-    ProblemID INTEGER
-);
-CREATE INDEX idx_cpr_contest ON ContestProblemRelation(ContestID);
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    ContestID INT,
+    ProblemID INT,
+    INDEX idx_cpr_contest (ContestID)
+) ENGINE=InnoDB;
 
 -- 11. 竞赛参与者表
 CREATE TABLE ContestParticipant (
-    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    ContestID INTEGER,
-    UserID INTEGER
-);
-CREATE INDEX idx_cp_contest_user ON ContestParticipant(ContestID, UserID);
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    ContestID INT,
+    UserID INT,
+    INDEX idx_cp_contest_user (ContestID, UserID)
+) ENGINE=InnoDB;
 ```
 
+## Web 架构实现
