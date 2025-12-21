@@ -1,3 +1,7 @@
+mod model;
+
+use crate::model::{get_contest_participants, get_contest_problem_relations, get_contests, get_locations, get_login_logs, get_organizations, get_problem_tags, get_problems, get_submissions, get_tags, get_users};
+use axum::routing::get;
 use axum::{routing::post, Json, Router};
 use serde::Deserialize;
 use sqlx::mysql::MySqlPool;
@@ -17,6 +21,17 @@ async fn main() {
 
     let app = Router::new()
         .route("/api/query", post(handle_query))
+        .route("/api/users", get(get_users))
+        .route("/api/submissions", get(get_submissions))
+        .route("/api/organizations", get(get_organizations))
+        .route("/api/contests", get(get_contests))
+        .route("/api/tags", get(get_tags))
+        .route("/api/login_logs", get(get_login_logs))
+        .route("/api/locations", get(get_locations))
+        .route("/api/problems", get(get_problems))
+        .route("/api/problem_tag_relations", get(get_problem_tags))
+        .route("/api/contest_problem_relations", get(get_contest_problem_relations))
+        .route("/api/contest_participants", get(get_contest_participants))
         .layer(CorsLayer::permissive()) // 允许跨域
         .with_state(pool);
 

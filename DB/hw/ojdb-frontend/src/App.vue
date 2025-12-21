@@ -7,13 +7,13 @@
       </div>
       <div class="status-bar">
         <span class="status-dot"></span>
-        Rust Backend: Online
+        Backend: Online
       </div>
     </header>
 
     <main class="content-wrapper">
       <section class="editor-pane">
-        <div class="pane-header">SQL QUERY EDITOR</div>
+        <div class="pane-header">SQL 请求编辑器</div>
         <div class="textarea-container">
           <textarea 
             v-model="sql" 
@@ -27,7 +27,7 @@
         </button>
 
         <div class="examples-section">
-          <div class="pane-header mini">SCENARIO EXAMPLES</div>
+          <div class="pane-header">一键示例</div>
           <div class="example-grid">
             <div 
               v-for="(item, idx) in examples" 
@@ -42,8 +42,20 @@
       </section>
 
       <section class="result-pane">
+        <div class="pane-header">一键打印</div>
+        <div class="button-group">
+          <button 
+            v-for="(btn, idx) in button_groups" 
+            :key="idx" 
+            @click="fetchNative(btn.type)" 
+            :disabled="loading" 
+            class="run-button"
+          >
+            {{ btn.title }}
+          </button>
+        </div>
         <div class="pane-header">
-          QUERY RESULTS 
+          查询结果
           <span v-if="results.length" class="count-tag">{{ results.length }} rows</span>
         </div>
         
@@ -83,16 +95,45 @@
 <script setup>
 import { ref } from 'vue'
 
-const sql = ref('-- Select all users to start\nSELECT * FROM User;')
+const sql = ref('-- 例：查找所有用户\nSELECT * FROM User;')
 const results = ref([])
 const error = ref(null)
 const loading = ref(false)
 
 const examples = [
-  { title: "Easy Problems", code: "SELECT DISTINCT R.ProblemID FROM Tag T JOIN ProblemTagRelation R ON T.TagID = R.TagID WHERE T.TagName = 'Easy';" },
-  { title: "Inactive Users", code: "SELECT UserID FROM User EXCEPT SELECT UserID FROM Submission;" },
-  { title: "Beijing Logins", code: "SELECT DISTINCT U.Username FROM User U JOIN LoginLog L ON U.UserID = L.UserID JOIN Location LOC ON L.LocationIP = LOC.LocationIP WHERE LOC.Address = '北京';" },
-  { title: "Sub-Orgs", code: "SELECT Name FROM Organization WHERE ParentOrgID IS NOT NULL;" }
+  { title: "Easy题目", code: "SELECT DISTINCT R.ProblemID FROM Tag T JOIN ProblemTagRelation R ON T.TagID = R.TagID WHERE T.TagName = 'Easy';" },
+  { title: "用户提交情况", code: "SELECT Result, TimeUsed FROM Submission WHERE UserID = 10;" },
+  { title: "北京登录用户", code: "SELECT DISTINCT U.Username FROM User U JOIN LoginLog L ON U.UserID = L.UserID JOIN Location LOC ON L.LocationID = LOC.LocationID WHERE LOC.Address = '北京';" },
+  { title: "竞赛参加者", code: "SELECT UserID FROM ContestParticipant WHERE ContestID = 1;" },
+  { title: "内存限制查询", code: "SELECT Description FROM Problem WHERE MemoryLimit > 131072;" },
+  { title: "根机构查询", code: "SELECT Name FROM Organization WHERE ParentOrgID IS NULL;" },
+  { title: "竞赛题目", code: "SELECT R.ProblemID FROM ContestProblemRelation R JOIN Contest C ON R.ContestID = C.ContestID WHERE C.ContestName = '2023 Final';" },
+  { title: "未提交用户", code: "SELECT UserID FROM User EXCEPT SELECT UserID FROM Submission;" },
+  { title: "通过提交", code: "SELECT SubmissionID FROM Submission WHERE ProblemID = 1 AND Result = 'Accepted';" },
+  { title: "交集标签", code: "SELECT ProblemID FROM ProblemTagRelation WHERE TagID = 1 INTERSECT SELECT ProblemID FROM ProblemTagRelation WHERE TagID = 3;" },
+  { title: "全竞赛参加者", code: "SELECT UserID FROM User U WHERE NOT EXISTS (SELECT ContestID FROM Contest EXCEPT SELECT ContestID FROM ContestParticipant CP WHERE CP.UserID = U.UserID);" },
+  { title: "竞赛全通", code: "SELECT S.UserID FROM Submission S WHERE S.Result = 'Accepted' AND S.ProblemID IN (SELECT ProblemID FROM ContestProblemRelation WHERE ContestID = 1) GROUP BY S.UserID HAVING COUNT(DISTINCT S.ProblemID) = (SELECT COUNT(*) FROM ContestProblemRelation WHERE ContestID = 1);" },
+  { title: "异地登录", code: "SELECT UserID FROM User EXCEPT SELECT U.UserID FROM User U JOIN Organization O ON U.OrgID = O.OrgID JOIN LoginLog L ON U.UserID = L.UserID AND O.LocationID = L.LocationID;" },
+  { title: "多竞赛参加", code: "SELECT DISTINCT C1.UserID FROM ContestParticipant C1, ContestParticipant C2 WHERE C1.UserID = C2.UserID AND C1.ContestID != C2.ContestID;" },
+  { title: "二级机构题目", code: "SELECT DISTINCT S.ProblemID FROM Submission S JOIN User U ON S.UserID = U.UserID JOIN Organization O ON U.OrgID = O.OrgID WHERE O.ParentOrgID IS NOT NULL;" },
+  { title: "标签差集", code: "SELECT R.ProblemID FROM ProblemTagRelation R JOIN Tag T ON R.TagID = T.TagID WHERE T.TagName = '动态规划' EXCEPT SELECT R.ProblemID FROM ProblemTagRelation R JOIN Tag T ON R.TagID = T.TagID WHERE T.TagName = '数学';" },
+  { title: "上海登录用户", code: "SELECT DISTINCT U.Username FROM User U JOIN LoginLog L ON U.UserID = L.UserID JOIN Location LOC ON L.LocationID = LOC.LocationID WHERE LOC.Address = '上海';" },
+  { title: "全通用户", code: "SELECT UserID FROM Submission EXCEPT SELECT UserID FROM Submission WHERE Result != 'Accepted';" },
+  { title: "竞赛外提交", code: "SELECT DISTINCT S.UserID FROM Submission S JOIN Contest C ON S.ContestID = C.ContestID JOIN ContestProblemRelation CPR ON S.ProblemID = CPR.ProblemID AND C.ContestID = CPR.ContestID WHERE S.SubmitTime < C.StartTime OR S.SubmitTime > C.EndTime;" }
+]
+
+const button_groups = [
+  { title: "用户", type: "users" },
+  { title: "机构", type: "organizations" },
+  { title: "竞赛", type: "contests" },
+  { title: "标签", type: "tags" },
+  { title: "日志", type: "login_logs" },
+  { title: "位置", type: "locations" },
+  { title: "题目", type: "problems" },
+  { title: "提交", type: "submissions" },
+  { title: "题目-标签", type: "problem_tag_relations" },
+  { title: "竞赛-题目", type: "contest_problem_relations" },
+  { title: "竞赛-用户", type: "contest_participants" }
 ]
 
 async function runQuery() {
@@ -111,6 +152,22 @@ async function runQuery() {
     error.value = "Failed to connect to Rust backend at localhost:3000"
   } finally {
     loading.value = false
+  }
+}
+
+// Vue 端的调用逻辑
+async function fetchNative(type) {
+  loading.value = true;
+  error.value = null;
+  try {
+    const res = await fetch(`http://localhost:3000/api/${type}`);
+    const data = await res.json();
+    if (data.error) error.value = data.error;
+    else results.value = data; // 结构体返回的 JSON 数组直接赋值给表格即可
+  } catch (err) {
+    error.value = "Connect failed";
+  } finally {
+    loading.value = false;
   }
 }
 </script>
@@ -152,11 +209,11 @@ async function runQuery() {
   padding: 12px 16px;
   font-size: 0.75rem;
   font-weight: 700;
-  color: #64748b;
+  color: #ffffff;
   letter-spacing: 0.05em;
   background: #0f172a;
+  border-radius: 10px;
 }
-.pane-header.mini { margin-top: 20px; }
 
 /* 左侧编辑器 */
 .editor-pane {
@@ -167,10 +224,10 @@ async function runQuery() {
   padding: 16px;
   background: #1e293b;
 }
-.textarea-container { flex: 1; min-height: 200px; }
+.textarea-container { flex: 1; min-height: 200px; align-items: center; display: flex; justify-content: center; margin-top: 16px; }
 textarea {
-  width: 100%;
-  height: 100%;
+  width: 90%;
+  height: 80%;
   background: #0f172a;
   border: 1px solid #334155;
   border-radius: 8px;
@@ -196,6 +253,14 @@ textarea:focus { border-color: #38bdf8; }
 }
 .run-button:hover { background: #7dd3fc; transform: translateY(-1px); }
 .run-button:disabled { background: #475569; cursor: not-allowed; }
+
+.examples-section {
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: #475569 #1e293b;
+}
 
 .example-grid {
   display: grid;
@@ -225,6 +290,8 @@ textarea:focus { border-color: #38bdf8; }
   flex: 1;
   overflow: auto; /* 允许表格内部滚动 */
   padding: 0 16px 16px 16px;
+  scrollbar-width: thin;
+  scrollbar-color: #475569 #1e293b;
 }
 
 table {
@@ -270,4 +337,15 @@ tr:hover { background: #1e293b; }
   color: #64748b;
 }
 .empty-icon { font-size: 3rem; margin-bottom: 16px; }
+
+.button-group {
+  display: flex;
+  padding: 0 10px;
+  gap: 8px;
+}
+.button-group .run-button {
+  flex: 1;
+}
+
+
 </style>
