@@ -28,7 +28,7 @@ pub struct Organization {
     #[sqlx(rename = "ParentOrgID")]
     pub parent_id: Option<i32>,
     #[sqlx(rename = "LocationID")]
-    pub location_id: Option<i32>,
+    pub location_id: i32,
 }
 
 #[derive(Serialize, FromRow)]
@@ -55,7 +55,7 @@ pub struct Location {
     #[sqlx(rename = "LocationIP")]
     pub ip: String,
     #[sqlx(rename = "Address")]
-    pub address: Option<String>,
+    pub address: String,
 }
 
 #[derive(Serialize, FromRow)]
@@ -63,11 +63,11 @@ pub struct Problem {
     #[sqlx(rename = "ProblemID")]
     pub id: i32,
     #[sqlx(rename = "Description")]
-    pub description: Option<String>,
+    pub description: String,
     #[sqlx(rename = "TimeLimit")]
-    pub time_limit: Option<i32>,
+    pub time_limit: i32,
     #[sqlx(rename = "MemoryLimit")]
-    pub memory_limit: Option<i32>,
+    pub memory_limit: i32,
 }
 
 #[derive(Serialize, FromRow)]
@@ -75,7 +75,7 @@ pub struct Tag {
     #[sqlx(rename = "TagID")]
     pub id: i32,
     #[sqlx(rename = "TagName")]
-    pub tag_name: Option<String>,
+    pub tag_name: String,
 }
 
 #[derive(Serialize, FromRow)]
@@ -83,7 +83,7 @@ pub struct Contest {
     #[sqlx(rename = "ContestID")]
     pub id: i32,
     #[sqlx(rename = "ContestName")]
-    pub contest_name: Option<String>,
+    pub contest_name: String,
     #[sqlx(rename = "StartTime")]
     pub start_time: Option<NaiveDateTime>,
     #[sqlx(rename = "EndTime")]
@@ -95,9 +95,9 @@ pub struct ContestParticipant {
     #[sqlx(rename = "ID")]
     pub id: i32,
     #[sqlx(rename = "ContestID")]
-    pub contest_id: Option<i32>,
+    pub contest_id: i32,
     #[sqlx(rename = "UserID")]
-    pub user_id: Option<i32>,
+    pub user_id: i32,
 }
 
 // --- 日志与关联表 ---
@@ -107,11 +107,11 @@ pub struct LoginLog {
     #[sqlx(rename = "LogID")]
     pub id: i32,
     #[sqlx(rename = "UserID")]
-    pub user_id: Option<i32>,
+    pub user_id: i32,
     #[sqlx(rename = "LoginTime")]
-    pub login_time: Option<NaiveDateTime>,
+    pub login_time: NaiveDateTime,
     #[sqlx(rename = "LocationID")]
-    pub location_id: Option<i32>,
+    pub location_id: i32,
 }
 
 #[derive(Serialize, FromRow)]
@@ -119,9 +119,9 @@ pub struct ProblemTag {
     #[sqlx(rename = "ID")]
     pub id: i32,
     #[sqlx(rename = "ProblemID")]
-    pub problem_id: Option<i32>,
+    pub problem_id: i32,
     #[sqlx(rename = "TagID")]
-    pub tag_id: Option<i32>,
+    pub tag_id: i32,
 }
 
 #[derive(Serialize, FromRow)]
@@ -129,42 +129,24 @@ pub struct ContestProblemRelation {
     #[sqlx(rename = "ID")]
     pub id: i32,
     #[sqlx(rename = "ContestID")]
-    pub contest_id: Option<i32>,
+    pub contest_id: i32,
     #[sqlx(rename = "ProblemID")]
-    pub problem_id: Option<i32>,
+    pub problem_id: i32,
 }
 
 // 获取所有用户
 pub async fn get_users(State(pool): State<MySqlPool>) -> Json<serde_json::Value> {
-    match sqlx::query_as::<_, User>("SELECT * FROM User")
-        .fetch_all(&pool)
-        .await
-    {
-        Ok(users) => Json(serde_json::json!(users)),
-        Err(e) => Json(serde_json::json!({ "error": e.to_string() })),
-    }
+    fetch_all_as::<User>(&pool, "SELECT * FROM User").await
 }
 
 // 获取所有机构
 pub async fn get_organizations(State(pool): State<MySqlPool>) -> Json<serde_json::Value> {
-    match sqlx::query_as::<_, Organization>("SELECT * FROM Organization")
-        .fetch_all(&pool)
-        .await
-    {
-        Ok(orgs) => Json(serde_json::json!(orgs)),
-        Err(e) => Json(serde_json::json!({ "error": e.to_string() })),
-    }
+    fetch_all_as::<Organization>(&pool, "SELECT * FROM Organization").await
 }
 
 // 获取所有提交记录
 pub async fn get_submissions(State(pool): State<MySqlPool>) -> Json<serde_json::Value> {
-    match sqlx::query_as::<_, Submission>("SELECT * FROM Submission ORDER BY SubmitTime DESC LIMIT 100")
-        .fetch_all(&pool)
-        .await
-    {
-        Ok(subs) => Json(serde_json::json!(subs)),
-        Err(e) => Json(serde_json::json!({ "error": e.to_string() })),
-    }
+    fetch_all_as::<Submission>(&pool, "SELECT * FROM Submission").await
 }
 
 // 获取所有题目

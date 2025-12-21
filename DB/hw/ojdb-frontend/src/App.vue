@@ -23,7 +23,7 @@
         </div>
         
         <button @click="runQuery" :disabled="loading" class="run-button">
-          {{ loading ? 'EXECUTING...' : 'RUN QUERY' }}
+          {{ loading ? '执行中...' : '运行查询' }}
         </button>
 
         <div class="examples-section">
@@ -84,7 +84,7 @@
 
           <div v-else class="empty-state">
             <div class="empty-icon">📂</div>
-            <p>No data to display. Execute a query to see results.</p>
+            <p>没有数据，执行查询以查看结果。</p>
           </div>
         </div>
       </section>
