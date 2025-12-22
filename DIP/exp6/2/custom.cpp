@@ -83,7 +83,8 @@ int main()
         cv::Point max_loc;
         cv::minMaxLoc(accumulator, &min_val, &max_val, nullptr, &max_loc);
 
-        if (max_val > 2 * std::acos(0) * r / 3.2)
+        double pi = 2 * std::acos(0);
+        if (max_val > 2 * 2 * std::acos(0) * r / 6.5)
         {
             candidates.push_back({max_loc.x, max_loc.y, r, (int)max_val});
         }
