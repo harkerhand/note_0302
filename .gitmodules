@@ -2,3 +2,6 @@
 	path = DIP/opencv
 	url = https://github.com/opencv/opencv.git
 
+[submodule "DIP/exp5/1/wavelib"]
+	path = DIP/exp5/1/wavelib
+	url = https://github.com/rafat/wavelib.git
