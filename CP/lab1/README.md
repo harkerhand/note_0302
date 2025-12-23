@@ -7,7 +7,7 @@
 - 注释
 `COMMENT = "//" [^\n]* `
 - 双字符运算符
-`POW2 = "^^" EQ  = "==" NEQ = "!=" GE  = ">=" LE  = "<="`
+`POW2 = "^^" EQ = "==" NEQ = "!=" GE = ">=" LE = "<="`
 - 单字符运算符
 `POW1 = "^"
 ASSIGN = "="
@@ -19,11 +19,11 @@ GT     = ">"
 LT     = "<"
 `
 - 单字符分隔符
-`SEP = "(" | ")" | "{" | "}" | ";" | "," `
+`SEP = [(){};,]`
 - 空格
 `WS = [ \t\n\r]+`
 - 关键字
-`KEY = "let" "print" "read" "if" "else"`
+`KEY = (let|print|read|if|else)`
 
 # NFA
 ```
